@@ -64,8 +64,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -138,12 +136,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">Contents</h2>
    
   <ul class="collapse">
-  <li><a href="#read-data-from-csv-file" id="toc-read-data-from-csv-file" class="nav-link active" data-scroll-target="#read-data-from-csv-file"><span class="header-section-number">1</span> Read data from CSV file</a></li>
-  <li><a href="#split-state-and-city-into-separate-columns" id="toc-split-state-and-city-into-separate-columns" class="nav-link" data-scroll-target="#split-state-and-city-into-separate-columns"><span class="header-section-number">2</span> Split state and city into separate columns</a></li>
-  <li><a href="#group-data-by-state-and-calculate-total-revenue" id="toc-group-data-by-state-and-calculate-total-revenue" class="nav-link" data-scroll-target="#group-data-by-state-and-calculate-total-revenue"><span class="header-section-number">3</span> Group data by state and calculate total revenue</a></li>
-  <li><a href="#find-state-with-the-highest-revenue" id="toc-find-state-with-the-highest-revenue" class="nav-link" data-scroll-target="#find-state-with-the-highest-revenue"><span class="header-section-number">4</span> Find state with the highest revenue</a></li>
-  <li><a href="#create-a-bar-plot-of-sales-by-state" id="toc-create-a-bar-plot-of-sales-by-state" class="nav-link" data-scroll-target="#create-a-bar-plot-of-sales-by-state"><span class="header-section-number">5</span> Create a bar plot of sales by state</a></li>
-  <li><a href="#create-facet_wrap-plot-for-sales-by-location-and-year" id="toc-create-facet_wrap-plot-for-sales-by-location-and-year" class="nav-link" data-scroll-target="#create-facet_wrap-plot-for-sales-by-location-and-year"><span class="header-section-number">6</span> Create facet_wrap plot for sales by location and year</a></li>
+  <li><a href="#load-necessary-libraries" id="toc-load-necessary-libraries" class="nav-link active" data-scroll-target="#load-necessary-libraries"><span class="header-section-number">1</span> Load necessary libraries</a></li>
+  <li><a href="#read-data-from-excel-files" id="toc-read-data-from-excel-files" class="nav-link" data-scroll-target="#read-data-from-excel-files"><span class="header-section-number">2</span> Read data from Excel files</a></li>
+  <li><a href="#merge-dataframes" id="toc-merge-dataframes" class="nav-link" data-scroll-target="#merge-dataframes"><span class="header-section-number">3</span> Merge dataframes</a></li>
+  <li><a href="#extract-state-abbreviation-from-location" id="toc-extract-state-abbreviation-from-location" class="nav-link" data-scroll-target="#extract-state-abbreviation-from-location"><span class="header-section-number">4</span> Extract state abbreviation from location</a></li>
+  <li><a href="#calculating-total-price" id="toc-calculating-total-price" class="nav-link" data-scroll-target="#calculating-total-price"><span class="header-section-number">5</span> Calculating total price</a></li>
+  <li><a href="#group-by-state-and-summarize-sales" id="toc-group-by-state-and-summarize-sales" class="nav-link" data-scroll-target="#group-by-state-and-summarize-sales"><span class="header-section-number">6</span> Group by state and summarize sales</a></li>
+  <li><a href="#visualize-sales-by-state" id="toc-visualize-sales-by-state" class="nav-link" data-scroll-target="#visualize-sales-by-state"><span class="header-section-number">7</span> Visualize sales by state</a></li>
   </ul>
 </nav>
     </div>
@@ -173,29 +172,33 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<section id="read-data-from-csv-file" class="level1" data-number="1">
-<h1 data-number="1"><span class="header-section-number">1</span> Read data from CSV file</h1>
-<p>data &lt;- read.csv(“bikes.csv”) data &lt;- read.csv(“bikeshops.csv”) data &lt;- read.csv(“orderlines.csv”)</p>
+<section id="load-necessary-libraries" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Load necessary libraries</h1>
+<p>library(dplyr) library(ggplot2) library(tidyr) library(stringr)</p>
 </section>
-<section id="split-state-and-city-into-separate-columns" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> Split state and city into separate columns</h1>
-<p>bike_orderlines_wrangled_tbl &lt;- bike_orderlines_wrangled_tbl%&gt;% separate(location, into = c(“city”, “state”), sep = “,”, remove = FALSE)</p>
+<section id="read-data-from-excel-files" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Read data from Excel files</h1>
+<p>bikes &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikes.xlsx”) bikeshops &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx”) orderlines &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/orderlines.xlsx”)</p>
 </section>
-<section id="group-data-by-state-and-calculate-total-revenue" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> Group data by state and calculate total revenue</h1>
-<p>sales_by_loc_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;% group_by(state)%&gt;% summarise(total_revenue = sum(revenue))</p>
+<section id="merge-dataframes" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Merge dataframes</h1>
+<p>bike_orderlines_joined &lt;- orderlines %&gt;% left_join(bikes, by = c(“product.id” = “bike.id”)) %&gt;% left_join(bikeshops, by = c(“customer.id” = “bikeshop.id”))</p>
 </section>
-<section id="find-state-with-the-highest-revenue" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Find state with the highest revenue</h1>
-<p>state_highest_revenue &lt;- sales_by_loc_tbl %&gt;% filter(total_revenue == max(total_revenue)) %&gt;% pull(state)</p>
+<section id="extract-state-abbreviation-from-location" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Extract state abbreviation from location</h1>
+<p>bike_orderlines_wrangled &lt;- bike_orderlines_joined %&gt;% separate(location, into = c(“city”, “state”), sep = “,”) %&gt;% mutate(state = str_trim(state))</p>
 </section>
-<section id="create-a-bar-plot-of-sales-by-state" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Create a bar plot of sales by state</h1>
-<p>ggplot(sales_by_loc_tbl, aes(x = state, y = total_revenue)) + geom_bar(stat = “identity”, fill = “skyblue”) + labs(x = “State”, y = “Total Revenue”, title = “Sales by State”) + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + annotate(“text”, x = state_highest_revenue, y = max(sales_by_loc_tbl<span class="math inline">\(total_revenue),  label = paste("Highest Revenue:", max(sales_by_loc_tbl\)</span>total_revenue), “USD”), vjust = -0.5, hjust = 1, color = “red”, size = 4) # Group data by state and year, and calculate total revenue sales_by_loc_year_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;% group_by(state, year) %&gt;% summarise(total_revenue = sum(revenue))</p>
+<section id="calculating-total-price" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Calculating total price</h1>
+<p>bike_orderlines_wrangled &lt;- bike_orderlines_wrangled %&gt;% mutate(total_price = price * quantity)</p>
 </section>
-<section id="create-facet_wrap-plot-for-sales-by-location-and-year" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> Create facet_wrap plot for sales by location and year</h1>
-<p>ggplot(sales_by_loc_year_tbl, aes(x = year, y = total_revenue)) + geom_bar(stat = “identity”, fill = “skyblue”) + labs(x = “Year”, y = “Total Revenue”, title = “Sales by Location and Year”) + facet_wrap(~state, ncol = 3)</p>
+<section id="group-by-state-and-summarize-sales" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Group by state and summarize sales</h1>
+<p>sales_by_state_tbl &lt;- bike_orderlines_wrangled %&gt;% group_by(state, city) %&gt;% summarise(total_sales = sum(total_price)) %&gt;% arrange(desc(total_sales)) # Arrange states by total sales, descending order</p>
+</section>
+<section id="visualize-sales-by-state" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Visualize sales by state</h1>
+<p>sales_by_state_tbl %&gt;% ggplot(aes(x = reorder(state, -total_sales), y = total_sales)) + geom_bar(stat = “identity”, fill = “#2DC6D6”) + labs( title = “Revenue by State”, x = “State”, y = “Revenue” ) + theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels</p>
 
 
 </section>

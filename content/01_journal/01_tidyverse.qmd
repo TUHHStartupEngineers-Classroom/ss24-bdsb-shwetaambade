@@ -6,44 +6,46 @@ editor:
     wrap: 72
 ---
 
-# Read data from CSV file
+# Load necessary libraries
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(stringr)
 
-data <- read.csv("bikes.csv") 
-data <- read.csv("bikeshops.csv") 
-data <- read.csv("orderlines.csv")
+# Read data from Excel files
+bikes <- read_excel("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikes.xlsx")
+bikeshops <- read_excel("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx")
+orderlines <- read_excel("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/orderlines.xlsx")
 
-# Split state and city into separate columns
+# Merge dataframes 
+bike_orderlines_joined <- orderlines %>%
+  left_join(bikes, by = c("product.id" = "bike.id")) %>%
+  left_join(bikeshops, by = c("customer.id" = "bikeshop.id"))
 
-bike_orderlines_wrangled_tbl <- bike_orderlines_wrangled_tbl%\>%
-separate(location, into = c("city", "state"), sep = ",", remove = FALSE)
+# Extract state abbreviation from location
+bike_orderlines_wrangled <- bike_orderlines_joined %>%
+  separate(location, into = c("city", "state"), sep = ",") %>%
+  mutate(state = str_trim(state))
 
-# Group data by state and calculate total revenue
+# Calculating total price
+bike_orderlines_wrangled <- bike_orderlines_wrangled %>%
+  mutate(total_price = price * quantity)
 
-sales_by_loc_tbl <- bike_orderlines_wrangled_tbl %\>%
-group_by(state)%\>% 
-summarise(total_revenue = sum(revenue))
+# Group by state and summarize sales
+sales_by_state_tbl <- bike_orderlines_wrangled %>%
+  group_by(state, city) %>%
+  summarise(total_sales = sum(total_price)) %>%
+  arrange(desc(total_sales)) # Arrange states by total sales, descending order
 
-# Find state with the highest revenue
-state_highest_revenue <- sales_by_loc_tbl %>%
-  filter(total_revenue == max(total_revenue)) %>%
-  pull(state)
+# Visualize sales by state
+sales_by_state_tbl %>%
+  ggplot(aes(x = reorder(state, -total_sales), y = total_sales)) +
+  geom_bar(stat = "identity", fill = "#2DC6D6") +
+  labs(
+    title = "Revenue by State",
+    x = "State",
+    y = "Revenue"
+  ) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels
 
-# Create a bar plot of sales by state
-ggplot(sales_by_loc_tbl, aes(x = state, y = total_revenue)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  labs(x = "State", y = "Total Revenue", title = "Sales by State") +
-  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-  annotate("text", x = state_highest_revenue, y = max(sales_by_loc_tbl$total_revenue),
-           label = paste("Highest Revenue:", max(sales_by_loc_tbl$total_revenue), "USD"),
-           vjust = -0.5, hjust = 1, color = "red", size = 4)
-# Group data by state and year, and calculate total revenue
-sales_by_loc_year_tbl <- bike_orderlines_wrangled_tbl %>%
-  group_by(state, year) %>%
-  summarise(total_revenue = sum(revenue))
-
-# Create facet_wrap plot for sales by location and year
-ggplot(sales_by_loc_year_tbl, aes(x = year, y = total_revenue)) +
-  geom_bar(stat = "identity", fill = "skyblue") +
-  labs(x = "Year", y = "Total Revenue", title = "Sales by Location and Year") +
-  facet_wrap(~state, ncol = 3)
 

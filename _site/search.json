@@ -39,7 +39,7 @@
     "href": "content/01_journal/02_data_acquisition.html",
     "title": "Data Acquisition",
     "section": "",
-    "text": "Note\n\n\n\nYou can delete everything in here and start fresh."
+    "text": "#API Challenge #load packages library\nlibrary(RSQLite) library(httr) library(jsonlite)\n\n1 API key for OpenWeatherMap\napi_key &lt;- “1b974d3ef182f3948d75d15456fbbd20”\n\n\n2 City for which you want to fetch weather data\ncity &lt;- URLencode(“Berlin”)\n\n\n3 API endpoint\nurl &lt;- paste0(“https://api.openweathermap.org/data/2.5/weather?q=”, city, “&appid=”, api_key)\n\n\n4 Make GET request to API\nresponse &lt;- GET(url)\n\n\n5 Check if request was successful\nif (http_type(response) == “application/json”) { # Parse JSON response weather_data &lt;- fromJSON(content(response, “text”))\n# Extract relevant information temperature &lt;- weather_data\\(main\\)temp - 273.15 # Convert temperature from Kelvin to Celsius humidity &lt;- weather_data\\(main\\)humidity\n# Create dataframe to store weather information weather_df &lt;- data.frame( “City” = city, “Temperature (°C)” = temperature, “Humidity (%)” = humidity, “Description” = weather_description )\n# Print weather dataframe print(weather_df)\n# If you want to save the dataframe to a table in a database, you can use RSQLite or any other database package\n} else { cat(“Failed to fetch weather data.”) }\n#Web Scraping"
   },
   {
     "objectID": "content/01_journal/04_data_visualization.html",

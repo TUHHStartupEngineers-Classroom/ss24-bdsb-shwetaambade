@@ -1,8 +1,82 @@
 ---
 title: "Data Acquisition"
-author: "Joschka Schwarz"
+author: "Shweta Ambade"
 ---
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+#API Challenge
+#load packages library
+
+library(RSQLite)
+library(httr)
+library(jsonlite)
+
+# API key for OpenWeatherMap
+api_key <- "1b974d3ef182f3948d75d15456fbbd20"
+
+# City for which you want to fetch weather data
+city <- URLencode("Berlin")
+
+# API endpoint
+url <- paste0("https://api.openweathermap.org/data/2.5/weather?q=", city, "&appid=", api_key)
+
+# Make GET request to API
+response <- GET(url)
+
+# Check if request was successful
+if (http_type(response) == "application/json") {
+  # Parse JSON response
+  weather_data <- fromJSON(content(response, "text"))
+  
+  # Extract relevant information
+  temperature <- weather_data$main$temp - 273.15  # Convert temperature from Kelvin to Celsius
+  humidity <- weather_data$main$humidity
+
+ # Create dataframe to store weather information
+  weather_df <- data.frame(
+    "City" = city,
+    "Temperature (°C)" = temperature,
+    "Humidity (%)" = humidity,
+    "Description" = weather_description
+  )
+  
+  # Print weather dataframe
+  print(weather_df)
+  
+  # If you want to save the dataframe to a table in a database, you can use RSQLite or any other database package
+  
+} else {
+  cat("Failed to fetch weather data.\n")
+}
+
+#Web Scraping
+# Load required libraries
+#Web Scraping
+# Load required libraries
+library(rvest)
+
+# URL of the website to scrape
+url <- "https://www.radon-bikes.de"
+
+# Read the HTML content of the website
+page <- read_html(url)
+
+# Extract model names and prices
+model_names <- page %>%
+  html_nodes(".product-name a") %>%
+  html_text()
+
+prices <- page %>%
+  html_nodes(".price") %>%
+  html_text()
+
+# Clean up the data
+prices <- gsub("[^0-9.,]", "", prices) # Remove non-numeric characters
+prices <- as.numeric(gsub(",", ".", prices)) # Convert to numeric format
+
+# Create a data frame
+scraped_data <- data.frame(Model_Name = model_names,
+                            Price = prices)
+
+# Print the first 10 rows of the scraped data
+print(head(scraped_data, 10))
+

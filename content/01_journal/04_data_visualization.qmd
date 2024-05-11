@@ -1,8 +1,73 @@
 ---
 title: "Data Visualization"
-author: "Joschka Schwarz"
+author: "Shweta Ambade"
 ---
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+#challenge1 - correct
+library(readr)
+library(tidyverse)
+
+# Read COVID-19 data
+covid_data_tbl <- read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+
+# Filter data for specified regions
+specified_regions <- c("Europe", "France", "Germany", "Spain", "United Kingdom", "United States")
+filtered_data <- covid_data_tbl %>%
+  filter(location %in% specified_regions & !is.na(total_cases))
+
+# Plot cumulative COVID-19 cases over time for each region
+filtered_data %>%
+  ggplot(aes(date, total_cases, color = location)) +
+  geom_line() +
+  scale_color_manual(values = c(Europe = "#E41A1C", France = "#377EB8", Germany = "#4DAF4A", 
+                                Spain = "#FF7F00", `United Kingdom` = "#984EA3", `United States` = "#FFFF33")) +
+  labs(title = "Cumulative COVID-19 Cases Over Time",
+       x = "Date",
+       y = "Total Cases",
+       color = "Region") +
+  theme_minimal()
+  
+  
+
+
+#challenge2
+library(dplyr)
+library(readr)
+
+# Load the COVID-19 data
+covid_data_tbl <- read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+
+# Filter the data to include only necessary columns and rows
+covid_data_filtered <- covid_data_tbl %>%
+  filter(!is.na(population)) %>%
+  group_by(location) %>%
+  summarize(total_deaths = max(total_deaths, na.rm = TRUE),
+            total_cases = max(total_cases, na.rm = TRUE),
+            population = max(population, na.rm = TRUE)) %>%
+  mutate(mortality_rate = total_deaths / population,
+         case_fatality_rate = total_deaths / total_cases) %>%
+  filter(!is.na(mortality_rate))  # or !is.na(case_fatality_rate) if plotting case-fatality rate
+
+
+library(ggplot2)
+library(maps)
+
+# Load world map data
+world <- map_data("world")
+
+# Merge data with world map data
+merged_data <- merge(world, covid_data_filtered, by.x = "region", by.y = "location", all.x = TRUE)
+
+# Plot the map with adjusted settings
+ggplot() +
+  geom_map(data = merged_data, map = merged_data,
+           aes(map_id = region, fill = mortality_rate), # or fill = case_fatality_rate if plotting case-fatality rate
+           color = "black") +
+  scale_fill_gradient(name = "Mortality Rate", low = "lightblue", high = "darkred", na.value = "grey") + # or "Case-Fatality Rate" if plotting case-fatality rate
+  theme_minimal() +
+  coord_map("mercator") +  # Adjust map projection
+  labs(title = "World Mortality Rate Distribution") # or "World Case-Fatality Rate Distribution" if plotting case-fatality rate
+
+
+
+

@@ -143,6 +143,12 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#api-endpoint" id="toc-api-endpoint" class="nav-link" data-scroll-target="#api-endpoint"><span class="header-section-number">3</span> API endpoint</a></li>
   <li><a href="#make-get-request-to-api" id="toc-make-get-request-to-api" class="nav-link" data-scroll-target="#make-get-request-to-api"><span class="header-section-number">4</span> Make GET request to API</a></li>
   <li><a href="#check-if-request-was-successful" id="toc-check-if-request-was-successful" class="nav-link" data-scroll-target="#check-if-request-was-successful"><span class="header-section-number">5</span> Check if request was successful</a></li>
+  <li><a href="#url-of-the-website-to-scrape" id="toc-url-of-the-website-to-scrape" class="nav-link" data-scroll-target="#url-of-the-website-to-scrape"><span class="header-section-number">6</span> URL of the website to scrape</a></li>
+  <li><a href="#read-the-html-content-of-the-website" id="toc-read-the-html-content-of-the-website" class="nav-link" data-scroll-target="#read-the-html-content-of-the-website"><span class="header-section-number">7</span> Read the HTML content of the website</a></li>
+  <li><a href="#extract-model-names-and-prices" id="toc-extract-model-names-and-prices" class="nav-link" data-scroll-target="#extract-model-names-and-prices"><span class="header-section-number">8</span> Extract model names and prices</a></li>
+  <li><a href="#clean-up-the-data" id="toc-clean-up-the-data" class="nav-link" data-scroll-target="#clean-up-the-data"><span class="header-section-number">9</span> Clean up the data</a></li>
+  <li><a href="#create-a-data-frame" id="toc-create-a-data-frame" class="nav-link" data-scroll-target="#create-a-data-frame"><span class="header-section-number">10</span> Create a data frame</a></li>
+  <li><a href="#print-the-first-10-rows-of-the-scraped-data" id="toc-print-the-first-10-rows-of-the-scraped-data" class="nav-link" data-scroll-target="#print-the-first-10-rows-of-the-scraped-data"><span class="header-section-number">11</span> Print the first 10 rows of the scraped data</a></li>
   </ul>
 </nav>
     </div>
@@ -198,7 +204,32 @@ ul.task-list li input[type="checkbox"] {
 <p># Print weather dataframe print(weather_df)</p>
 <p># If you want to save the dataframe to a table in a database, you can use RSQLite or any other database package</p>
 <p>} else { cat(“Failed to fetch weather data.”) }</p>
-<p>#Web Scraping</p>
+<p>#Web Scraping # Load required libraries #Web Scraping # Load required libraries library(rvest)</p>
+</section>
+<section id="url-of-the-website-to-scrape" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> URL of the website to scrape</h1>
+<p>url &lt;- “https://www.radon-bikes.de”</p>
+</section>
+<section id="read-the-html-content-of-the-website" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Read the HTML content of the website</h1>
+<p>page &lt;- read_html(url)</p>
+</section>
+<section id="extract-model-names-and-prices" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Extract model names and prices</h1>
+<p>model_names &lt;- page %&gt;% html_nodes(“.product-name a”) %&gt;% html_text()</p>
+<p>prices &lt;- page %&gt;% html_nodes(“.price”) %&gt;% html_text()</p>
+</section>
+<section id="clean-up-the-data" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Clean up the data</h1>
+<p>prices &lt;- gsub(“[^0-9.,]”, ““, prices) # Remove non-numeric characters prices &lt;- as.numeric(gsub(”,“,”.”, prices)) # Convert to numeric format</p>
+</section>
+<section id="create-a-data-frame" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Create a data frame</h1>
+<p>scraped_data &lt;- data.frame(Model_Name = model_names, Price = prices)</p>
+</section>
+<section id="print-the-first-10-rows-of-the-scraped-data" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Print the first 10 rows of the scraped data</h1>
+<p>print(head(scraped_data, 10))</p>
 
 
 </section>

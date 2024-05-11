@@ -6,7 +6,7 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
-<meta name="author" content="Joschka Schwarz">
+<meta name="author" content="Shweta Ambade">
 
 <title>MyLabJournal - Data Wrangling</title>
 <style>
@@ -132,7 +132,29 @@ ul.task-list li input[type="checkbox"] {
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#load-required-packages" id="toc-load-required-packages" class="nav-link active" data-scroll-target="#load-required-packages"><span class="header-section-number">1</span> Load required packages</a></li>
+  <li><a href="#set-working-directory-if-needed" id="toc-set-working-directory-if-needed" class="nav-link" data-scroll-target="#set-working-directory-if-needed"><span class="header-section-number">2</span> Set working directory if needed</a></li>
+  <li><a href="#setwdcusersshwetadocumentsgithubss24-bdsb-shwetaambadedatasciencepatent_data_reducedpatent_data_reduced" id="toc-setwdcusersshwetadocumentsgithubss24-bdsb-shwetaambadedatasciencepatent_data_reducedpatent_data_reduced" class="nav-link" data-scroll-target="#setwdcusersshwetadocumentsgithubss24-bdsb-shwetaambadedatasciencepatent_data_reducedpatent_data_reduced"><span class="header-section-number">3</span> setwd(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/”)</a></li>
+  <li><a href="#load-data" id="toc-load-data" class="nav-link" data-scroll-target="#load-data"><span class="header-section-number">4</span> Load data</a></li>
+  <li><a href="#check-column-names" id="toc-check-column-names" class="nav-link" data-scroll-target="#check-column-names"><span class="header-section-number">5</span> Check column names</a></li>
+  <li><a href="#question-1-patent-dominance--correct" id="toc-question-1-patent-dominance--correct" class="nav-link" data-scroll-target="#question-1-patent-dominance--correct"><span class="header-section-number">6</span> Question 1: Patent Dominance- correct</a></li>
+  <li><a href="#join-assignee-and-patent_assignee-tables-filter-for-us-companies-then-count-patents-by-company" id="toc-join-assignee-and-patent_assignee-tables-filter-for-us-companies-then-count-patents-by-company" class="nav-link" data-scroll-target="#join-assignee-and-patent_assignee-tables-filter-for-us-companies-then-count-patents-by-company"><span class="header-section-number">7</span> Join assignee and patent_assignee tables, filter for US companies, then count patents by company</a></li>
+  <li><a href="#display-top-10-us-companies-with-the-most-assignedgranted-patents" id="toc-display-top-10-us-companies-with-the-most-assignedgranted-patents" class="nav-link" data-scroll-target="#display-top-10-us-companies-with-the-most-assignedgranted-patents"><span class="header-section-number">8</span> Display top 10 US companies with the most assigned/granted patents</a></li>
+  <li><a href="#question-2-recent-patent-activity-correct" id="toc-question-2-recent-patent-activity-correct" class="nav-link" data-scroll-target="#question-2-recent-patent-activity-correct"><span class="header-section-number">9</span> Question 2: Recent Patent Activity-correct</a></li>
+  <li><a href="#filter-patents-granted-in-august-2014-then-count-patents-by-company" id="toc-filter-patents-granted-in-august-2014-then-count-patents-by-company" class="nav-link" data-scroll-target="#filter-patents-granted-in-august-2014-then-count-patents-by-company"><span class="header-section-number">10</span> Filter patents granted in August 2014, then count patents by company</a></li>
+  <li><a href="#display-top-10-us-companies-with-the-most-new-granted-patents-for-august-2014" id="toc-display-top-10-us-companies-with-the-most-new-granted-patents-for-august-2014" class="nav-link" data-scroll-target="#display-top-10-us-companies-with-the-most-new-granted-patents-for-august-2014"><span class="header-section-number">11</span> Display top 10 US companies with the most new granted patents for August 2014</a></li>
+  <li><a href="#question-3-innovation-in-tech-correct" id="toc-question-3-innovation-in-tech-correct" class="nav-link" data-scroll-target="#question-3-innovation-in-tech-correct"><span class="header-section-number">12</span> Question 3: Innovation in Tech-correct</a></li>
+  <li><a href="#join-assignee-patent_assignee-and-uspc-tables-then-count-patents-by-tech-sector" id="toc-join-assignee-patent_assignee-and-uspc-tables-then-count-patents-by-tech-sector" class="nav-link" data-scroll-target="#join-assignee-patent_assignee-and-uspc-tables-then-count-patents-by-tech-sector"><span class="header-section-number">13</span> Join assignee, patent_assignee, and uspc tables, then count patents by tech sector</a></li>
+  <li><a href="#display-the-top-10-most-innovative-tech-sectors" id="toc-display-the-top-10-most-innovative-tech-sectors" class="nav-link" data-scroll-target="#display-the-top-10-most-innovative-tech-sectors"><span class="header-section-number">14</span> Display the top 10 most innovative tech sectors</a></li>
+  <li><a href="#count-the-number-of-patents-per-main-class" id="toc-count-the-number-of-patents-per-main-class" class="nav-link" data-scroll-target="#count-the-number-of-patents-per-main-class"><span class="header-section-number">15</span> Count the number of patents per main class</a></li>
+  <li><a href="#sort-the-main-classes-by-patent-count" id="toc-sort-the-main-classes-by-patent-count" class="nav-link" data-scroll-target="#sort-the-main-classes-by-patent-count"><span class="header-section-number">16</span> Sort the main classes by patent count</a></li>
+  <li><a href="#display-the-top-5-uspto-tech-main-classes" id="toc-display-the-top-5-uspto-tech-main-classes" class="nav-link" data-scroll-target="#display-the-top-5-uspto-tech-main-classes"><span class="header-section-number">17</span> Display the top 5 USPTO tech main classes</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -149,7 +171,7 @@ ul.task-list li input[type="checkbox"] {
     <div>
     <div class="quarto-title-meta-heading">Author</div>
     <div class="quarto-title-meta-contents">
-             <p>Joschka Schwarz </p>
+             <p>Shweta Ambade </p>
           </div>
   </div>
     
@@ -160,21 +182,71 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<div class="callout callout-style-default callout-note callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Note
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>You can delete everything in here and start fresh.</p>
-</div>
-</div>
+<section id="load-required-packages" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> Load required packages</h1>
+<p>library(data.table)</p>
+</section>
+<section id="set-working-directory-if-needed" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Set working directory if needed</h1>
+</section>
+<section id="setwdcusersshwetadocumentsgithubss24-bdsb-shwetaambadedatasciencepatent_data_reducedpatent_data_reduced" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> setwd(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/”)</h1>
+</section>
+<section id="load-data" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Load data</h1>
+<p>assignee &lt;- fread(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/assignee.tsv”) patent_assignee &lt;- fread(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv”) patent &lt;- fread(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent.tsv”) uspc &lt;- fread(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/uspc.tsv”)</p>
+</section>
+<section id="check-column-names" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Check column names</h1>
+<p>colnames(assignee) colnames(patent_assignee) colnames(patent) colnames(uspc)</p>
+</section>
+<section id="question-1-patent-dominance--correct" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Question 1: Patent Dominance- correct</h1>
+</section>
+<section id="join-assignee-and-patent_assignee-tables-filter-for-us-companies-then-count-patents-by-company" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> Join assignee and patent_assignee tables, filter for US companies, then count patents by company</h1>
+<p>dominance &lt;- assignee[patent_assignee, on = c(“id” = “assignee_id”)][type %in% c(2, 4, 6, 8, 9), .N, by = organization][order(-N)]</p>
+</section>
+<section id="display-top-10-us-companies-with-the-most-assignedgranted-patents" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Display top 10 US companies with the most assigned/granted patents</h1>
+<p>head(dominance, 10)</p>
+</section>
+<section id="question-2-recent-patent-activity-correct" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Question 2: Recent Patent Activity-correct</h1>
+</section>
+<section id="filter-patents-granted-in-august-2014-then-count-patents-by-company" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> Filter patents granted in August 2014, then count patents by company</h1>
+<p>recent_activity &lt;- assignee[patent_assignee[patent, on = c(“patent_id” = “id”)][date &gt;= “2014-08-01” &amp; date &lt;= “2014-08-31”], on = c(“id” = “assignee_id”)][type %in% c(2, 4, 6, 8, 9), .N, by = organization][order(-N)]</p>
+</section>
+<section id="display-top-10-us-companies-with-the-most-new-granted-patents-for-august-2014" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> Display top 10 US companies with the most new granted patents for August 2014</h1>
+<p>head(recent_activity, 10)</p>
+</section>
+<section id="question-3-innovation-in-tech-correct" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Question 3: Innovation in Tech-correct</h1>
+</section>
+<section id="join-assignee-patent_assignee-and-uspc-tables-then-count-patents-by-tech-sector" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> Join assignee, patent_assignee, and uspc tables, then count patents by tech sector</h1>
+<p>innovation &lt;- assignee[patent_assignee, on = c(“id” = “assignee_id”)][uspc, on = c(“patent_id” = “patent_id”)][, .N, by = .(organization, mainclass_id)][order(-N)]</p>
+</section>
+<section id="display-the-top-10-most-innovative-tech-sectors" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Display the top 10 most innovative tech sectors</h1>
+<p>top_sectors &lt;- head(innovation, 10) print(top_sectors)</p>
+</section>
+<section id="count-the-number-of-patents-per-main-class" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Count the number of patents per main class</h1>
+<p>main_class_counts &lt;- innovation[, .N, by = mainclass_id]</p>
+</section>
+<section id="sort-the-main-classes-by-patent-count" class="level1" data-number="16">
+<h1 data-number="16"><span class="header-section-number">16</span> Sort the main classes by patent count</h1>
+<p>sorted_main_classes &lt;- main_class_counts[order(-N)]</p>
+</section>
+<section id="display-the-top-5-uspto-tech-main-classes" class="level1" data-number="17">
+<h1 data-number="17"><span class="header-section-number">17</span> Display the top 5 USPTO tech main classes</h1>
+<p>top_main_classes &lt;- head(sorted_main_classes, 5) print(top_main_classes)</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">

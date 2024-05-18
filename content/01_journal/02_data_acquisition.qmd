@@ -48,35 +48,38 @@ if (http_type(response) == "application/json") {
   cat("Failed to fetch weather data.\n")
 }
 
+
 #Web Scraping
 # Load required libraries
-#Web Scraping
-# Load required libraries
-library(rvest)
+library(tidyverse) 
+library(rvest)     
+library(xopen)     
+library(jsonlite)  
+library(glue)      
+library(stringi)   
 
-# URL of the website to scrape
-url <- "https://www.radon-bikes.de"
+# URL of the competitor website
+url_home <- "https://www.rosebikes.de/"
 
-# Read the HTML content of the website
-page <- read_html(url)
+# Read the HTML content of the webpage
+html_home <- read_html(url_home)
 
-# Extract model names and prices
-model_names <- page %>%
-  html_nodes(".product-name a") %>%
-  html_text()
+# Scrape both bike models and prices using updated CSS selectors
+bike_data <- html_home %>% 
+  html_nodes(".product-item") %>%
+  map_df(~{
+    bike_model <- .x %>% 
+      html_node(".product-item__title") %>%
+      html_text(trim = TRUE)
+    
+    bike_price <- .x %>% 
+      html_node(".product-item__price") %>%
+      html_text(trim = TRUE) %>%
+      str_remove_all("\\D") %>% # Remove non-numeric characters
+      as.numeric() # Convert to numeric
+    
+    tibble(bike_model, bike_price)
+  })
 
-prices <- page %>%
-  html_nodes(".price") %>%
-  html_text()
-
-# Clean up the data
-prices <- gsub("[^0-9.,]", "", prices) # Remove non-numeric characters
-prices <- as.numeric(gsub(",", ".", prices)) # Convert to numeric format
-
-# Create a data frame
-scraped_data <- data.frame(Model_Name = model_names,
-                            Price = prices)
-
-# Print the first 10 rows of the scraped data
-print(head(scraped_data, 10))
-
+# Check if prices are reasonable
+summary(bike_data$bike_price)

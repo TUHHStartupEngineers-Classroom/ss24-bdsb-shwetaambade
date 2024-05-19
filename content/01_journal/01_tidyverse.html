@@ -143,6 +143,14 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#calculating-total-price" id="toc-calculating-total-price" class="nav-link" data-scroll-target="#calculating-total-price"><span class="header-section-number">5</span> Calculating total price</a></li>
   <li><a href="#group-by-state-and-summarize-sales" id="toc-group-by-state-and-summarize-sales" class="nav-link" data-scroll-target="#group-by-state-and-summarize-sales"><span class="header-section-number">6</span> Group by state and summarize sales</a></li>
   <li><a href="#visualize-sales-by-state" id="toc-visualize-sales-by-state" class="nav-link" data-scroll-target="#visualize-sales-by-state"><span class="header-section-number">7</span> Visualize sales by state</a></li>
+  <li><a href="#examining-data--" id="toc-examining-data--" class="nav-link" data-scroll-target="#examining-data--"><span class="header-section-number">8</span> 3.0 Examining Data —-</a></li>
+  <li><a href="#method-1-print-it-to-the-console" id="toc-method-1-print-it-to-the-console" class="nav-link" data-scroll-target="#method-1-print-it-to-the-console"><span class="header-section-number">9</span> Method 1: Print it to the console</a></li>
+  <li><a href="#joining-data" id="toc-joining-data" class="nav-link" data-scroll-target="#joining-data"><span class="header-section-number">10</span> 4.0 Joining Data —</a></li>
+  <li><a href="#wrangling-data--" id="toc-wrangling-data--" class="nav-link" data-scroll-target="#wrangling-data--"><span class="header-section-number">11</span> 5.0 Wrangling Data —-</a></li>
+  <li><a href="#step-1---manipulate" id="toc-step-1---manipulate" class="nav-link" data-scroll-target="#step-1---manipulate"><span class="header-section-number">12</span> Step 1 - Manipulate</a></li>
+  <li><a href="#sales-by-year-state--" id="toc-sales-by-year-state--" class="nav-link" data-scroll-target="#sales-by-year-state--"><span class="header-section-number">13</span> 6.1 Sales by Year state —-</a></li>
+  <li><a href="#step-1---manipulate-1" id="toc-step-1---manipulate-1" class="nav-link" data-scroll-target="#step-1---manipulate-1"><span class="header-section-number">14</span> Step 1 - Manipulate</a></li>
+  <li><a href="#geometries" id="toc-geometries" class="nav-link" data-scroll-target="#geometries"><span class="header-section-number">15</span> Geometries</a></li>
   </ul>
 </nav>
     </div>
@@ -174,7 +182,7 @@ ul.task-list li input[type="checkbox"] {
 
 <section id="load-necessary-libraries" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> Load necessary libraries</h1>
-<p>library(dplyr) library(ggplot2) library(tidyr) library(stringr)</p>
+<p>library(dplyr) library(ggplot2) library(tidyr) library(stringr) library(readxl)</p>
 </section>
 <section id="read-data-from-excel-files" class="level1" data-number="2">
 <h1 data-number="2"><span class="header-section-number">2</span> Read data from Excel files</h1>
@@ -199,6 +207,58 @@ ul.task-list li input[type="checkbox"] {
 <section id="visualize-sales-by-state" class="level1" data-number="7">
 <h1 data-number="7"><span class="header-section-number">7</span> Visualize sales by state</h1>
 <p>sales_by_state_tbl %&gt;% ggplot(aes(x = reorder(state, -total_sales), y = total_sales)) + geom_bar(stat = “identity”, fill = “#2DC6D6”) + labs( title = “Revenue by State”, x = “State”, y = “Revenue” ) + theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels</p>
+<p>library(tidyverse) library(readxl) library(lubridate)</p>
+<p>bikes_tbl &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikes.xlsx”) bikeshops_tbl &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/bikeshops.xlsx”) orderlines_tbl &lt;- read_excel(“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/ds_data/ds_data/01_bike_sales/01_raw_data/orderlines.xlsx”)</p>
+</section>
+<section id="examining-data--" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> 3.0 Examining Data —-</h1>
+</section>
+<section id="method-1-print-it-to-the-console" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> Method 1: Print it to the console</h1>
+<p>orderlines_tbl # Method 2: glimpse glimpse(orderlines_tbl)</p>
+</section>
+<section id="joining-data" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> 4.0 Joining Data —</h1>
+<p>left_join(orderlines_tbl, bikes_tbl, by = c(“product.id” = “bike.id”)) # Chaining commands with the pipe and assigning it to order_items_joined_tbl bike_orderlines_joined_tbl &lt;- orderlines_tbl %&gt;% left_join(bikes_tbl, by = c(“product.id” = “bike.id”)) %&gt;% left_join(bikeshops_tbl, by = c(“customer.id” = “bikeshop.id”)) # Examine the results with glimpse() bike_orderlines_joined_tbl %&gt;% glimpse()</p>
+</section>
+<section id="wrangling-data--" class="level1" data-number="11">
+<h1 data-number="11"><span class="header-section-number">11</span> 5.0 Wrangling Data —-</h1>
+<p>bike_orderlines_wrangled_tbl &lt;- bike_orderlines_joined_tbl %&gt;%</p>
+<p>separate(col = location, into = c(“city”, “state”), sep = “,”) %&gt;%</p>
+<p>mutate(total.price = price * quantity) %&gt;%</p>
+<p>select(-…1, -gender) %&gt;%</p>
+<p>select(-ends_with(“.id”)) %&gt;%</p>
+<p>bind_cols(bike_orderlines_joined_tbl %&gt;% select(order.id)) %&gt;%</p>
+<p>select(order.id, contains(“order”), contains(“model”), contains(“category”), price, quantity, total.price, everything()) %&gt;%</p>
+<p>rename(bikeshop = name) %&gt;% set_names(names(.) %&gt;% str_replace_all(“\.”, “_“)) # 6.1 Sales by Year —-</p>
+</section>
+<section id="step-1---manipulate" class="level1" data-number="12">
+<h1 data-number="12"><span class="header-section-number">12</span> Step 1 - Manipulate</h1>
+<p>sales_by_year_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;%</p>
+<p># Select columns select(order_date, total_price) %&gt;%</p>
+<p># Add year column mutate(year = year(order_date)) %&gt;%</p>
+<p># Grouping by year and summarizing sales group_by(year) %&gt;% summarize(sales = sum(total_price)) %&gt;%</p>
+<p>mutate(sales_text = scales::dollar(sales, big.mark = “.”, decimal.mark = “,”, prefix = ““, suffix =” €“)) sales_by_year_tbl # Step 2 - Visualization sales_by_year_tbl %&gt;%</p>
+<p># Setup canvas with the columns year (x-axis) and sales (y-axis) ggplot(aes(x = year, y = sales)) +</p>
+<p># Geometries geom_col(fill = “springgreen2”) + geom_label(aes(label = sales_text)) + geom_smooth(method = “lm”, se = FALSE) +</p>
+<p>scale_y_continuous(labels = scales::dollar_format(big.mark = “.”, decimal.mark = “,”, prefix = ““, suffix =” €“)) + labs( title =”Revenue by year”, subtitle = “Upward Trend”, x = ““, # Override defaults for x and y y =”Revenue” )</p>
+</section>
+<section id="sales-by-year-state--" class="level1" data-number="13">
+<h1 data-number="13"><span class="header-section-number">13</span> 6.1 Sales by Year state —-</h1>
+</section>
+<section id="step-1---manipulate-1" class="level1" data-number="14">
+<h1 data-number="14"><span class="header-section-number">14</span> Step 1 - Manipulate</h1>
+<p>sales_by_year_cat_1_tbl &lt;- bike_orderlines_wrangled_tbl %&gt;%</p>
+<p># Select columns and add a year select(order_date, total_price, state) %&gt;% mutate(year = year(order_date)) %&gt;%</p>
+<p>group_by(year, state) %&gt;% summarise(sales = sum(total_price)) %&gt;% ungroup() %&gt;%</p>
+<p>mutate(sales_text = scales::dollar(sales, big.mark = “.”, decimal.mark = “,”, prefix = ““, suffix =” €“))</p>
+<p>sales_by_year_cat_1_tbl # Step 2 - Visualize sales_by_year_cat_1_tbl %&gt;%</p>
+<p># Set up x, y, fill ggplot(aes(x = year, y = sales, fill = state)) +</p>
+</section>
+<section id="geometries" class="level1" data-number="15">
+<h1 data-number="15"><span class="header-section-number">15</span> Geometries</h1>
+<p>geom_col() + geom_smooth(method = “lm”, se = FALSE) + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + facet_wrap(~ state) + scale_y_continuous(labels = scales::dollar_format(big.mark = “.”, decimal.mark = “,”, prefix = ““, suffix =” €“)) + labs( title =”Revenue by Year and State”, subtitle = “Drop in sales are fairly low”, fill = “State” # Changes the legend name ) +</p>
+<p>theme_light() + theme(title = element_text(face = “bold”, color = “brown4”), legend.position = “right”, axis.text.x = element_text(angle = 45))</p>
 
 
 </section>

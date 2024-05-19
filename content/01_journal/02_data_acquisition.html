@@ -139,14 +139,15 @@ ul.task-list li input[type="checkbox"] {
    
   <ul class="collapse">
   <li><a href="#api-key-for-openweathermap" id="toc-api-key-for-openweathermap" class="nav-link active" data-scroll-target="#api-key-for-openweathermap"><span class="header-section-number">1</span> API key for OpenWeatherMap</a></li>
-  <li><a href="#city-for-which-you-want-to-fetch-weather-data" id="toc-city-for-which-you-want-to-fetch-weather-data" class="nav-link" data-scroll-target="#city-for-which-you-want-to-fetch-weather-data"><span class="header-section-number">2</span> City for which you want to fetch weather data</a></li>
-  <li><a href="#api-endpoint" id="toc-api-endpoint" class="nav-link" data-scroll-target="#api-endpoint"><span class="header-section-number">3</span> API endpoint</a></li>
-  <li><a href="#make-get-request-to-api" id="toc-make-get-request-to-api" class="nav-link" data-scroll-target="#make-get-request-to-api"><span class="header-section-number">4</span> Make GET request to API</a></li>
-  <li><a href="#check-if-request-was-successful" id="toc-check-if-request-was-successful" class="nav-link" data-scroll-target="#check-if-request-was-successful"><span class="header-section-number">5</span> Check if request was successful</a></li>
-  <li><a href="#url-of-the-competitor-website" id="toc-url-of-the-competitor-website" class="nav-link" data-scroll-target="#url-of-the-competitor-website"><span class="header-section-number">6</span> URL of the competitor website</a></li>
-  <li><a href="#read-the-html-content-of-the-webpage" id="toc-read-the-html-content-of-the-webpage" class="nav-link" data-scroll-target="#read-the-html-content-of-the-webpage"><span class="header-section-number">7</span> Read the HTML content of the webpage</a></li>
-  <li><a href="#scrape-both-bike-models-and-prices-using-updated-css-selectors" id="toc-scrape-both-bike-models-and-prices-using-updated-css-selectors" class="nav-link" data-scroll-target="#scrape-both-bike-models-and-prices-using-updated-css-selectors"><span class="header-section-number">8</span> Scrape both bike models and prices using updated CSS selectors</a></li>
-  <li><a href="#check-if-prices-are-reasonable" id="toc-check-if-prices-are-reasonable" class="nav-link" data-scroll-target="#check-if-prices-are-reasonable"><span class="header-section-number">9</span> Check if prices are reasonable</a></li>
+  <li><a href="#list-of-german-cities" id="toc-list-of-german-cities" class="nav-link" data-scroll-target="#list-of-german-cities"><span class="header-section-number">2</span> List of German cities</a></li>
+  <li><a href="#function-to-fetch-weather-data-for-a-city" id="toc-function-to-fetch-weather-data-for-a-city" class="nav-link" data-scroll-target="#function-to-fetch-weather-data-for-a-city"><span class="header-section-number">3</span> Function to fetch weather data for a city</a></li>
+  <li><a href="#fetch-weather-data-for-each-city" id="toc-fetch-weather-data-for-each-city" class="nav-link" data-scroll-target="#fetch-weather-data-for-each-city"><span class="header-section-number">4</span> Fetch weather data for each city</a></li>
+  <li><a href="#combine-weather-data-for-all-cities-into-a-single-dataframe" id="toc-combine-weather-data-for-all-cities-into-a-single-dataframe" class="nav-link" data-scroll-target="#combine-weather-data-for-all-cities-into-a-single-dataframe"><span class="header-section-number">5</span> Combine weather data for all cities into a single dataframe</a></li>
+  <li><a href="#print-weather-dataframe" id="toc-print-weather-dataframe" class="nav-link" data-scroll-target="#print-weather-dataframe"><span class="header-section-number">6</span> Print weather dataframe</a></li>
+  <li><a href="#data-scraping-from-the-web-page-for-the-bike-models" id="toc-data-scraping-from-the-web-page-for-the-bike-models" class="nav-link" data-scroll-target="#data-scraping-from-the-web-page-for-the-bike-models"><span class="header-section-number">7</span> data scraping from the web page for the bike models</a></li>
+  <li><a href="#scrape-the-bike-model-names" id="toc-scrape-the-bike-model-names" class="nav-link" data-scroll-target="#scrape-the-bike-model-names"><span class="header-section-number">8</span> Scrape the bike model names</a></li>
+  <li><a href="#data-scraping-from-the-web-page-for-the-bike-prices" id="toc-data-scraping-from-the-web-page-for-the-bike-prices" class="nav-link" data-scroll-target="#data-scraping-from-the-web-page-for-the-bike-prices"><span class="header-section-number">9</span> data scraping from the web page for the bike prices</a></li>
+  <li><a href="#merging-the-two-tables-into-one" id="toc-merging-the-two-tables-into-one" class="nav-link" data-scroll-target="#merging-the-two-tables-into-one"><span class="header-section-number">10</span> merging the two tables into one</a></li>
   </ul>
 </nav>
     </div>
@@ -176,61 +177,83 @@ ul.task-list li input[type="checkbox"] {
 
 </header>
 
-<p>#API Challenge #load packages library</p>
-<p>library(RSQLite) library(httr) library(jsonlite)</p>
+<p>#API Challenge # Load packages library(httr) library(jsonlite)</p>
 <section id="api-key-for-openweathermap" class="level1" data-number="1">
 <h1 data-number="1"><span class="header-section-number">1</span> API key for OpenWeatherMap</h1>
 <p>api_key &lt;- “1b974d3ef182f3948d75d15456fbbd20”</p>
 </section>
-<section id="city-for-which-you-want-to-fetch-weather-data" class="level1" data-number="2">
-<h1 data-number="2"><span class="header-section-number">2</span> City for which you want to fetch weather data</h1>
-<p>city &lt;- URLencode(“Berlin”)</p>
+<section id="list-of-german-cities" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> List of German cities</h1>
+<p>german_cities &lt;- c(“Berlin”, “Hamburg”, “Munich”, “Cologne”, “Frankfurt”, “Stuttgart”, “Düsseldorf”, “Dortmund”, “Essen”, “Leipzig”)</p>
 </section>
-<section id="api-endpoint" class="level1" data-number="3">
-<h1 data-number="3"><span class="header-section-number">3</span> API endpoint</h1>
-<p>url &lt;- paste0(“https://api.openweathermap.org/data/2.5/weather?q=”, city, “&amp;appid=”, api_key)</p>
+<section id="function-to-fetch-weather-data-for-a-city" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> Function to fetch weather data for a city</h1>
+<p>fetch_weather &lt;- function(city) { # API endpoint url &lt;- paste0(“https://api.openweathermap.org/data/2.5/weather?q=”, city, “&amp;appid=”, api_key)</p>
+<p># Make GET request to API response &lt;- GET(url)</p>
+<p># Check if request was successful if (http_type(response) == “application/json”) { # Parse JSON response weather_data &lt;- content(response, “text”, encoding = “UTF-8”)</p>
+<pre><code># Convert JSON to list
+weather_list &lt;- fromJSON(weather_data)
+
+# Extract relevant information
+if ("main" %in% names(weather_list) &amp;&amp; "weather" %in% names(weather_list)) {
+  temperature &lt;- weather_list$main$temp - 273.15  # Convert temperature from Kelvin to Celsius
+  humidity &lt;- weather_list$main$humidity
+  weather_description &lt;- weather_list$weather[1, "description"]
+  
+  # Create dataframe to store weather information
+  weather_df &lt;- data.frame(
+    "City" = city,
+    "Temperature (°C)" = temperature,
+    "Humidity (%)" = humidity,
+    "Description" = weather_description
+  )
+  
+  return(weather_df)
+} else {
+  cat("Failed to extract relevant information from the response for", city, "\n")
+  return(NULL)
+}</code></pre>
+<p>} else { cat(“Failed to fetch weather data for”, city, “”) return(NULL) } }</p>
 </section>
-<section id="make-get-request-to-api" class="level1" data-number="4">
-<h1 data-number="4"><span class="header-section-number">4</span> Make GET request to API</h1>
-<p>response &lt;- GET(url)</p>
+<section id="fetch-weather-data-for-each-city" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> Fetch weather data for each city</h1>
+<p>weather_data_list &lt;- lapply(german_cities, fetch_weather)</p>
 </section>
-<section id="check-if-request-was-successful" class="level1" data-number="5">
-<h1 data-number="5"><span class="header-section-number">5</span> Check if request was successful</h1>
-<p>if (http_type(response) == “application/json”) { # Parse JSON response weather_data &lt;- fromJSON(content(response, “text”))</p>
-<p># Extract relevant information temperature &lt;- weather_data<span class="math inline">\(main\)</span>temp - 273.15 # Convert temperature from Kelvin to Celsius humidity &lt;- weather_data<span class="math inline">\(main\)</span>humidity</p>
-<p># Create dataframe to store weather information weather_df &lt;- data.frame( “City” = city, “Temperature (°C)” = temperature, “Humidity (%)” = humidity, “Description” = weather_description )</p>
-<p># Print weather dataframe print(weather_df)</p>
-<p># If you want to save the dataframe to a table in a database, you can use RSQLite or any other database package</p>
-<p>} else { cat(“Failed to fetch weather data.”) }</p>
-<p>#Web Scraping # Load required libraries library(tidyverse) library(rvest)<br>
+<section id="combine-weather-data-for-all-cities-into-a-single-dataframe" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Combine weather data for all cities into a single dataframe</h1>
+<p>weather_all &lt;- do.call(rbind, weather_data_list)</p>
+</section>
+<section id="print-weather-dataframe" class="level1" data-number="6">
+<h1 data-number="6"><span class="header-section-number">6</span> Print weather dataframe</h1>
+<p>print(weather_all)</p>
+<p>#Web Scraping #Load necessary libraries</p>
+<p>library(tidyverse) library(rvest)<br>
 library(xopen)<br>
 library(jsonlite)<br>
 library(glue)<br>
 library(stringi)</p>
+<p>url_home &lt;- “https://www.rosebikes.de/fahrr%C3%A4der/mtb” # Open links directly from RStudio to inspect them</p>
+<p>html_home &lt;- read_html(url_home) # Read in the HTML for the entire web page</p>
 </section>
-<section id="url-of-the-competitor-website" class="level1" data-number="6">
-<h1 data-number="6"><span class="header-section-number">6</span> URL of the competitor website</h1>
-<p>url_home &lt;- “https://www.rosebikes.de/”</p>
+<section id="data-scraping-from-the-web-page-for-the-bike-models" class="level1" data-number="7">
+<h1 data-number="7"><span class="header-section-number">7</span> data scraping from the web page for the bike models</h1>
 </section>
-<section id="read-the-html-content-of-the-webpage" class="level1" data-number="7">
-<h1 data-number="7"><span class="header-section-number">7</span> Read the HTML content of the webpage</h1>
-<p>html_home &lt;- read_html(url_home)</p>
+<section id="scrape-the-bike-model-names" class="level1" data-number="8">
+<h1 data-number="8"><span class="header-section-number">8</span> Scrape the bike model names</h1>
+<p>bike_model &lt;- html_home %&gt;% html_nodes(css = “.basic-headline.basic-headline–no-margin.basic-headline–small.basic-headline–left”)%&gt;% html_text() %&gt;% str_remove_all(“”) bike_model</p>
 </section>
-<section id="scrape-both-bike-models-and-prices-using-updated-css-selectors" class="level1" data-number="8">
-<h1 data-number="8"><span class="header-section-number">8</span> Scrape both bike models and prices using updated CSS selectors</h1>
-<p>bike_data &lt;- html_home %&gt;% html_nodes(“.product-item”) %&gt;% map_df(~{ bike_model &lt;- .x %&gt;% html_node(“.product-item__title”) %&gt;% html_text(trim = TRUE)</p>
-<pre><code>bike_price &lt;- .x %&gt;% 
-  html_node(".product-item__price") %&gt;%
-  html_text(trim = TRUE) %&gt;%
-  str_remove_all("\\D") %&gt;% # Remove non-numeric characters
-  as.numeric() # Convert to numeric
-
-tibble(bike_model, bike_price)</code></pre>
-<p>})</p>
+<section id="data-scraping-from-the-web-page-for-the-bike-prices" class="level1" data-number="9">
+<h1 data-number="9"><span class="header-section-number">9</span> data scraping from the web page for the bike prices</h1>
+<p>bike_price &lt;- html_home %&gt;% html_nodes(css = “.catalog-category-bikes__price-title”) %&gt;% html_text() %&gt;%</p>
+<p>str_remove_all(“\.”) %&gt;% stringr::str_replace_all(pattern = “”, replacement = ““) %&gt;% stringr::str_replace_all(pattern =”“, replacement =”“)</p>
+<p>bike_price</p>
 </section>
-<section id="check-if-prices-are-reasonable" class="level1" data-number="9">
-<h1 data-number="9"><span class="header-section-number">9</span> Check if prices are reasonable</h1>
-<p>summary(bike_data$bike_price)</p>
+<section id="merging-the-two-tables-into-one" class="level1" data-number="10">
+<h1 data-number="10"><span class="header-section-number">10</span> merging the two tables into one</h1>
+<p>da2 &lt;- tibble(bike_model, bike_price)</p>
+<p>da2 &lt;- da2 %&gt;%mutate(bike_price = as.character(gsub(“€”, ““, bike_price))) da2<span class="math inline">\(bike_price &lt;- as.character(gsub(",","",da2\)</span>bike_price)) da2<span class="math inline">\(bike_price &lt;- as.character(gsub("ab","",da2\)</span>bike_price))</p>
+<p>#d&lt;-da2 da2</p>
+<p>write_rds(da2, “C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R”) write.csv(x=da2, file=“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv”)</p>
 
 
 </section>

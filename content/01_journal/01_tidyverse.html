@@ -280,7 +280,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
-<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-2_59675e1c32f9e5d1b2bd501b8206aec9">
+<div class="cell" data-hash="01_tidyverse_cache/html/unnamed-chunk-2_a36407eb0f4a6d933ab1abec1156cc6e">
 <div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co">#Challenge</span></span>
 <span id="cb15-2"><a href="#cb15-2"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb15-3"><a href="#cb15-3"></a><span class="fu">library</span>(readxl)</span>
@@ -508,6 +508,23 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="quarto-figure quarto-figure-center">
 <figure class="figure">
 <p><a href="01_tidyverse_files/figure-html/unnamed-chunk-2-2.png" class="lightbox" data-gallery="quarto-lightbox-gallery-3"><img src="01_tidyverse_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></a></p>
+</figure>
+</div>
+</div>
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1"></a><span class="co"># Visualize sales by state</span></span>
+<span id="cb31-2"><a href="#cb31-2"></a>sales_by_state_tbl <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3"></a>  <span class="fu">ggplot</span>(<span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(state, <span class="sc">-</span>total_sales), <span class="at">y =</span> total_sales)) <span class="sc">+</span></span>
+<span id="cb31-4"><a href="#cb31-4"></a>  <span class="fu">geom_bar</span>(<span class="at">stat =</span> <span class="st">"identity"</span>, <span class="at">fill =</span> <span class="st">"#2DC6D6"</span>) <span class="sc">+</span></span>
+<span id="cb31-5"><a href="#cb31-5"></a>  <span class="fu">labs</span>(</span>
+<span id="cb31-6"><a href="#cb31-6"></a>    <span class="at">title =</span> <span class="st">"Revenue by State"</span>,</span>
+<span id="cb31-7"><a href="#cb31-7"></a>    <span class="at">x =</span> <span class="st">"State"</span>,</span>
+<span id="cb31-8"><a href="#cb31-8"></a>    <span class="at">y =</span> <span class="st">"Revenue"</span></span>
+<span id="cb31-9"><a href="#cb31-9"></a>  ) <span class="sc">+</span></span>
+<span id="cb31-10"><a href="#cb31-10"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">angle =</span> <span class="dv">45</span>, <span class="at">hjust =</span> <span class="dv">1</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><a href="01_tidyverse_files/figure-html/unnamed-chunk-2-3.png" class="lightbox" data-gallery="quarto-lightbox-gallery-4"><img src="01_tidyverse_files/figure-html/unnamed-chunk-2-3.png" class="img-fluid figure-img" width="672"></a></p>
 </figure>
 </div>
 </div>
@@ -865,7 +882,7 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
 });
 </script>
 </div> <!-- /content -->
-<script>var lightboxQuarto = GLightbox({"openEffect":"zoom","loop":true,"selector":".lightbox","descPosition":"bottom","closeEffect":"zoom"});</script>
+<script>var lightboxQuarto = GLightbox({"closeEffect":"zoom","selector":".lightbox","loop":true,"descPosition":"bottom","openEffect":"zoom"});</script>
 
 
 

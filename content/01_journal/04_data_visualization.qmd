@@ -2,8 +2,8 @@
 title: "Data Visualization"
 author: "Shweta Ambade"
 ---
-
-#challenge1 - correct
+```{r}
+#challenge1 
 library(readr)
 library(tidyverse)
 
@@ -27,10 +27,10 @@ filtered_data %>%
        color = "Region") +
   theme_minimal()
   
-  
+```  
 
 
-
+```{r}
 # challenge2
 # Importing Libraries
 library(tidyverse)
@@ -95,3 +95,4 @@ ggplot(plot_data) +
     legend.position = "right",
     plot.background = element_rect(fill = "white")
   )
+```

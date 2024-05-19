@@ -2,7 +2,7 @@
 title: "Data Acquisition"
 author: "Shweta Ambade"
 ---
-
+```{r}
 #API Challenge
 # Load packages
 library(httr)
@@ -65,11 +65,11 @@ weather_all <- do.call(rbind, weather_data_list)
 print(weather_all)
 
 
+```
 
 
 
-
-
+```{r}
 #Web Scraping
 #Load necessary libraries
 
@@ -118,7 +118,7 @@ da2
 
 write_rds(da2, "C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R")
 write.csv(x=da2, file="C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv")
-
+```
 
 
 

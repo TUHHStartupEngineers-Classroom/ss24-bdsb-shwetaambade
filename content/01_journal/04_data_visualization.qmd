@@ -1,8 +1,98 @@
 ---
 title: "Data Visualization"
-author: "Joschka Schwarz"
+author: "Shweta Ambade"
 ---
+```{r}
+#challenge1 
+library(readr)
+library(tidyverse)
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+# Read COVID-19 data
+covid_data_tbl <- read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv")
+
+# Filter data for specified regions
+specified_regions <- c("Europe", "France", "Germany", "Spain", "United Kingdom", "United States")
+filtered_data <- covid_data_tbl %>%
+  filter(location %in% specified_regions & !is.na(total_cases))
+
+# Plot cumulative COVID-19 cases over time for each region
+filtered_data %>%
+  ggplot(aes(date, total_cases, color = location)) +
+  geom_line() +
+  scale_color_manual(values = c(Europe = "#E41A1C", France = "#377EB8", Germany = "#4DAF4A", 
+                                Spain = "#FF7F00", `United Kingdom` = "#984EA3", `United States` = "#FFFF33")) +
+  labs(title = "Cumulative COVID-19 Cases Over Time",
+       x = "Date",
+       y = "Total Cases",
+       color = "Region") +
+  theme_minimal()
+  
+```  
+
+
+```{r}
+# challenge2
+# Importing Libraries
+library(tidyverse)
+library(lubridate)
+library(ggthemes)
+library(maps)
+library(ggrepel)
+library(purrr)
+
+# Loading and preprocessing data
+covid_data_tbl <- read_csv("https://covid.ourworldindata.org/data/owid-covid-data.csv") %>%
+  mutate(mort_rate = total_deaths / population) %>%
+  filter(!is.na(mort_rate)) %>% # Filter out rows where mort_rate is NA
+  group_by(location) %>%
+  summarise(Mortality_Rate = last(mort_rate, order_by = date)) %>% # Ensure proper ordering by date
+  mutate(location = case_when(
+    location == "United Kingdom" ~ "UK",
+    location == "United States" ~ "USA",
+    location == "Democratic Republic of Congo" ~ "Democratic Republic of the Congo",
+    location == "Cote d'Ivoire" ~ "Ivory Coast",
+    location == "Czechia" ~ "Czech Republic",
+    location == "Eswatini" ~ "Swaziland",
+    location == "Timor" ~ "East Timor",
+    location == "Congo" ~ "Republic of Congo",
+    location == "Burma" ~ "Myanmar",
+    TRUE ~ location
+  )) %>%
+  distinct()
+
+# Loading world map data
+world <- map_data("world")
+
+# Check for missing countries in the plot data
+missing_countries <- setdiff(unique(covid_data_tbl$location), unique(world$region))
+print(missing_countries)
+
+# Since the `maps` package does not have regions like "Africa", "Asia", "Europe", etc.,
+# these will not be plotted. For a more comprehensive visualization, consider using a more detailed map dataset.
+
+# Merging latitude/longitude data with COVID-19 mortality rate data
+plot_data <- left_join(world, covid_data_tbl, by = c("region" = "location"))
+
+# Creating world map plot using geom_map with red color gradient
+ggplot(plot_data) +
+  geom_map(aes(map_id = region, fill = Mortality_Rate), map = world) +
+  expand_limits(x = world$long, y = world$lat) +
+  
+  # Plot labeling
+  scale_fill_continuous(labels = scales::percent_format(accuracy = 0.001), low = "#FFCCCB", high = "#8B0000") +
+  labs(
+    title = "Mortality Rate (deaths / population) due to COVID-19",
+    subtitle = "Distribution across the world",
+    fill = "Mortality Rate"
+  ) +
+  
+  theme(
+    axis.line = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    title = element_text(face = "bold", color = "Black"),
+    legend.position = "right",
+    plot.background = element_rect(fill = "white")
+  )
+```

@@ -1,8 +1,65 @@
 ---
 title: "Data Wrangling"
-author: "Joschka Schwarz"
+author: "Shweta Ambade"
 ---
+```{r}
+#Challenge
+# Load required packages
+library(data.table)
 
-::: callout-note
-You can delete everything in here and start fresh.
-:::
+# Set working directory if needed
+# setwd("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/")
+
+
+# Load data
+assignee <- fread("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/assignee.tsv")
+patent_assignee <- fread("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv")
+patent <- fread("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent.tsv")
+uspc <- fread("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/uspc.tsv")
+
+
+# Check column names
+colnames(assignee)
+colnames(patent_assignee)
+colnames(patent)
+colnames(uspc)
+
+
+
+# Question 1: Patent Dominance- correct
+# Join assignee and patent_assignee tables, filter for US companies, then count patents by company
+dominance <- assignee[patent_assignee, on = c("id" = "assignee_id")][type %in% c(2, 4, 6, 8, 9), .N, by = organization][order(-N)]
+
+# Display top 10 US companies with the most assigned/granted patents
+head(dominance, 10)
+
+
+
+# Question 2: Recent Patent Activity-correct
+# Filter patents granted in August 2014, then count patents by company
+recent_activity <- assignee[patent_assignee[patent, on = c("patent_id" = "id")][date >= "2014-08-01" & date <= "2014-08-31"], on = c("id" = "assignee_id")][type %in% c(2, 4, 6, 8, 9), .N, by = organization][order(-N)]
+
+# Display top 10 US companies with the most new granted patents for August 2014
+head(recent_activity, 10)
+
+
+# Question 3: Innovation in Tech-correct
+# Join assignee, patent_assignee, and uspc tables, then count patents by tech sector
+innovation <- assignee[patent_assignee, on = c("id" = "assignee_id")][uspc, on = c("patent_id" = "patent_id")][, .N, by = .(organization, mainclass_id)][order(-N)]
+
+# Display the top 10 most innovative tech sectors
+top_sectors <- head(innovation, 10)
+print(top_sectors)
+
+# Count the number of patents per main class
+main_class_counts <- innovation[, .N, by = mainclass_id]
+
+# Sort the main classes by patent count
+sorted_main_classes <- main_class_counts[order(-N)]
+
+# Display the top 5 USPTO tech main classes
+top_main_classes <- head(sorted_main_classes, 5)
+print(top_main_classes)
+
+
+```

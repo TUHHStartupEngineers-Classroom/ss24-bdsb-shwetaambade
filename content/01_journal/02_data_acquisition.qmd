@@ -4,53 +4,75 @@ author: "Shweta Ambade"
 ---
 
 #API Challenge
-#load packages library
-
-library(RSQLite)
+# Load packages
 library(httr)
 library(jsonlite)
 
 # API key for OpenWeatherMap
 api_key <- "1b974d3ef182f3948d75d15456fbbd20"
 
-# City for which you want to fetch weather data
-city <- URLencode("Berlin")
+# List of German cities
+german_cities <- c("Berlin", "Hamburg", "Munich", "Cologne", "Frankfurt", "Stuttgart", "Düsseldorf", "Dortmund", "Essen", "Leipzig")
 
-# API endpoint
-url <- paste0("https://api.openweathermap.org/data/2.5/weather?q=", city, "&appid=", api_key)
-
-# Make GET request to API
-response <- GET(url)
-
-# Check if request was successful
-if (http_type(response) == "application/json") {
-  # Parse JSON response
-  weather_data <- fromJSON(content(response, "text"))
+# Function to fetch weather data for a city
+fetch_weather <- function(city) {
+  # API endpoint
+  url <- paste0("https://api.openweathermap.org/data/2.5/weather?q=", city, "&appid=", api_key)
   
-  # Extract relevant information
-  temperature <- weather_data$main$temp - 273.15  # Convert temperature from Kelvin to Celsius
-  humidity <- weather_data$main$humidity
-
- # Create dataframe to store weather information
-  weather_df <- data.frame(
-    "City" = city,
-    "Temperature (°C)" = temperature,
-    "Humidity (%)" = humidity,
-    "Description" = weather_description
-  )
+  # Make GET request to API
+  response <- GET(url)
   
-  # Print weather dataframe
-  print(weather_df)
-  
-  # If you want to save the dataframe to a table in a database, you can use RSQLite or any other database package
-  
-} else {
-  cat("Failed to fetch weather data.\n")
+  # Check if request was successful
+  if (http_type(response) == "application/json") {
+    # Parse JSON response
+    weather_data <- content(response, "text", encoding = "UTF-8")
+    
+    # Convert JSON to list
+    weather_list <- fromJSON(weather_data)
+    
+    # Extract relevant information
+    if ("main" %in% names(weather_list) && "weather" %in% names(weather_list)) {
+      temperature <- weather_list$main$temp - 273.15  # Convert temperature from Kelvin to Celsius
+      humidity <- weather_list$main$humidity
+      weather_description <- weather_list$weather[1, "description"]
+      
+      # Create dataframe to store weather information
+      weather_df <- data.frame(
+        "City" = city,
+        "Temperature (°C)" = temperature,
+        "Humidity (%)" = humidity,
+        "Description" = weather_description
+      )
+      
+      return(weather_df)
+    } else {
+      cat("Failed to extract relevant information from the response for", city, "\n")
+      return(NULL)
+    }
+  } else {
+    cat("Failed to fetch weather data for", city, "\n")
+    return(NULL)
+  }
 }
+
+# Fetch weather data for each city
+weather_data_list <- lapply(german_cities, fetch_weather)
+
+# Combine weather data for all cities into a single dataframe
+weather_all <- do.call(rbind, weather_data_list)
+
+# Print weather dataframe
+print(weather_all)
+
+
+
+
+
 
 
 #Web Scraping
-# Load required libraries
+#Load necessary libraries
+
 library(tidyverse) 
 library(rvest)     
 library(xopen)     
@@ -58,28 +80,48 @@ library(jsonlite)
 library(glue)      
 library(stringi)   
 
-# URL of the competitor website
-url_home <- "https://www.rosebikes.de/"
+url_home <- "https://www.rosebikes.de/fahrr%C3%A4der/mtb"
+# Open links directly from RStudio to inspect them
 
-# Read the HTML content of the webpage
-html_home <- read_html(url_home)
+html_home <- read_html(url_home) # Read in the HTML for the entire web page
 
-# Scrape both bike models and prices using updated CSS selectors
-bike_data <- html_home %>% 
-  html_nodes(".product-item") %>%
-  map_df(~{
-    bike_model <- .x %>% 
-      html_node(".product-item__title") %>%
-      html_text(trim = TRUE)
-    
-    bike_price <- .x %>% 
-      html_node(".product-item__price") %>%
-      html_text(trim = TRUE) %>%
-      str_remove_all("\\D") %>% # Remove non-numeric characters
-      as.numeric() # Convert to numeric
-    
-    tibble(bike_model, bike_price)
-  })
+# data scraping from the web page for  the bike models 
+# Scrape the bike model names
+bike_model <- html_home %>%
+  html_nodes(css = ".basic-headline.basic-headline--no-margin.basic-headline--small.basic-headline--left")%>%
+  html_text() %>%
+  str_remove_all("\n")
+bike_model
 
-# Check if prices are reasonable
-summary(bike_data$bike_price)
+# data scraping from the web page for  the bike prices
+bike_price <- html_home %>%
+  html_nodes(css = ".catalog-category-bikes__price-title") %>%
+  html_text() %>%
+  
+  str_remove_all("\\.") %>%
+  stringr::str_replace_all(pattern = "\nab ", replacement = "") %>%
+  stringr::str_replace_all(pattern = "\n", replacement = "") 
+  
+bike_price
+
+
+# merging the two tables into one
+da2 <- tibble(bike_model, bike_price)
+
+da2 <- da2 %>%mutate(bike_price = as.character(gsub("€", "", bike_price)))
+da2$bike_price <- as.character(gsub(",","",da2$bike_price))
+da2$bike_price <- as.character(gsub("ab","",da2$bike_price))
+
+#d<-da2
+da2
+
+
+write_rds(da2, "C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R")
+write.csv(x=da2, file="C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv")
+
+
+
+
+
+
+

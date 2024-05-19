@@ -105,6 +105,7 @@ bike_orderlines_wrangled_tbl <- bike_orderlines_joined_tbl %>%
 
   rename(bikeshop = name) %>%
   set_names(names(.) %>% str_replace_all("\\.", "_"))
+
 # 6.1 Sales by Year ----
 
 # Step 1 - Manipulate

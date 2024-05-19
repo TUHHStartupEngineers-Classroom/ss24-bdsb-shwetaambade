@@ -3,7 +3,7 @@ title: "Data Acquisition"
 author: "Shweta Ambade"
 ---
 ```{r}
-#API Challenge
+#Challenge 1- API Challenge
 # Load packages
 library(httr)
 library(jsonlite)
@@ -70,7 +70,7 @@ print(weather_all)
 
 
 ```{r}
-#Web Scraping
+#Challenge 2- Web Scraping
 #Load necessary libraries
 library(tidyverse) 
 library(rvest)     
@@ -123,53 +123,4 @@ write.csv(x=da2, file="C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/d
 ```
 
 
-
-
-library(tidyverse) 
-library(rvest)     
-library(xopen)     
-library(jsonlite)  
-library(glue)      
-library(stringi)   
-
-url_home <- "https://www.rosebikes.de/fahrr%C3%A4der/mtb"
-# Open links directly from RStudio to inspect them
-
-html_home <- read_html(url_home) # Read in the HTML for the entire web page
-
-# data scraping from the web page for  the bike models 
-# Scrape the bike model names
-bike_model <- html_home %>%
-  html_nodes(css = ".basic-headline.basic-headline--no-margin.basic-headline--small.basic-headline--left")%>%
-  html_text() %>%
-  str_remove_all("\n")
-bike_model
-
-# data scraping from the web page for  the bike prices
-bike_price <- html_home %>%
-  html_nodes(css = ".catalog-category-bikes__price-title") %>%
-  html_text() %>%
-  
-  str_remove_all("\\.") %>%
-  stringr::str_replace_all(pattern = "\nab ", replacement = "") %>%
-  stringr::str_replace_all(pattern = "\n", replacement = "") %>%
-  str_remove_all("€|ab|,|\\s")
-bike_price
-
-
-# merging the two tables into one
-da2 <- tibble(bike_model, bike_price)
-
-# Remove trailing zeros and convert to numeric
-da2$bike_price <- as.character(gsub("^0+", "", da2$bike_price))
-da2$bike_price <- gsub("00$", "", da2$bike_price)
-
-#d<-da2
-bike_model
-bike_price
-da2
-
-
-write_rds(da2, "C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R")
-write.csv(x=da2, file="C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv")
 

@@ -197,46 +197,45 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 </header>
 
-<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-1_d7b8d9cce4f3a18bbd253ce5fff133fb">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Load required packages</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="fu">library</span>(data.table)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'data.table' was built under R version 4.3.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="co"># Set working directory if needed</span></span>
-<span id="cb3-2"><a href="#cb3-2"></a><span class="co"># setwd("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/")</span></span>
-<span id="cb3-3"><a href="#cb3-3"></a></span>
-<span id="cb3-4"><a href="#cb3-4"></a></span>
-<span id="cb3-5"><a href="#cb3-5"></a><span class="co"># Load data</span></span>
-<span id="cb3-6"><a href="#cb3-6"></a>assignee <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/assignee.tsv"</span>)</span>
-<span id="cb3-7"><a href="#cb3-7"></a>patent_assignee <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv"</span>)</span>
-<span id="cb3-8"><a href="#cb3-8"></a>patent <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent.tsv"</span>)</span>
-<span id="cb3-9"><a href="#cb3-9"></a>uspc <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/uspc.tsv"</span>)</span>
-<span id="cb3-10"><a href="#cb3-10"></a></span>
-<span id="cb3-11"><a href="#cb3-11"></a></span>
-<span id="cb3-12"><a href="#cb3-12"></a><span class="co"># Check column names</span></span>
-<span id="cb3-13"><a href="#cb3-13"></a><span class="fu">colnames</span>(assignee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell" data-hash="03_data_wrangling_cache/html/unnamed-chunk-1_b2ce3fdfe1839ea1258baf867c5660b2">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="co">#Challenge</span></span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="co"># Load required packages</span></span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="fu">library</span>(data.table)</span>
+<span id="cb1-4"><a href="#cb1-4"></a></span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="co"># Set working directory if needed</span></span>
+<span id="cb1-6"><a href="#cb1-6"></a><span class="co"># setwd("C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/")</span></span>
+<span id="cb1-7"><a href="#cb1-7"></a></span>
+<span id="cb1-8"><a href="#cb1-8"></a></span>
+<span id="cb1-9"><a href="#cb1-9"></a><span class="co"># Load data</span></span>
+<span id="cb1-10"><a href="#cb1-10"></a>assignee <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/assignee.tsv"</span>)</span>
+<span id="cb1-11"><a href="#cb1-11"></a>patent_assignee <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent_assignee.tsv"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12"></a>patent <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/patent.tsv"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13"></a>uspc <span class="ot">&lt;-</span> <span class="fu">fread</span>(<span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/Patent_data_reduced/Patent_data_reduced/uspc.tsv"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14"></a></span>
+<span id="cb1-15"><a href="#cb1-15"></a></span>
+<span id="cb1-16"><a href="#cb1-16"></a><span class="co"># Check column names</span></span>
+<span id="cb1-17"><a href="#cb1-17"></a><span class="fu">colnames</span>(assignee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; [1] "id"           "type"         "organization"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">colnames</span>(patent_assignee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a><span class="fu">colnames</span>(patent_assignee)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; [1] "patent_id"   "assignee_id"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">colnames</span>(patent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="fu">colnames</span>(patent)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; [1] "id"         "date"       "num_claims"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="fu">colnames</span>(uspc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="fu">colnames</span>(uspc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt; [1] "patent_id"    "mainclass_id" "sequence"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Question 1: Patent Dominance- correct</span></span>
-<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># Join assignee and patent_assignee tables, filter for US companies, then count patents by company</span></span>
-<span id="cb11-3"><a href="#cb11-3"></a>dominance <span class="ot">&lt;-</span> assignee[patent_assignee, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>), .N, by <span class="ot">=</span> organization][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
-<span id="cb11-4"><a href="#cb11-4"></a></span>
-<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># Display top 10 US companies with the most assigned/granted patents</span></span>
-<span id="cb11-6"><a href="#cb11-6"></a><span class="fu">head</span>(dominance, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># Question 1: Patent Dominance- correct</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co"># Join assignee and patent_assignee tables, filter for US companies, then count patents by company</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>dominance <span class="ot">&lt;-</span> assignee[patent_assignee, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>), .N, by <span class="ot">=</span> organization][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
+<span id="cb9-4"><a href="#cb9-4"></a></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co"># Display top 10 US companies with the most assigned/granted patents</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="fu">head</span>(dominance, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -245,12 +244,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="co"># Question 2: Recent Patent Activity-correct</span></span>
-<span id="cb12-2"><a href="#cb12-2"></a><span class="co"># Filter patents granted in August 2014, then count patents by company</span></span>
-<span id="cb12-3"><a href="#cb12-3"></a>recent_activity <span class="ot">&lt;-</span> assignee[patent_assignee[patent, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)][date <span class="sc">&gt;=</span> <span class="st">"2014-08-01"</span> <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="st">"2014-08-31"</span>], on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>), .N, by <span class="ot">=</span> organization][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
-<span id="cb12-4"><a href="#cb12-4"></a></span>
-<span id="cb12-5"><a href="#cb12-5"></a><span class="co"># Display top 10 US companies with the most new granted patents for August 2014</span></span>
-<span id="cb12-6"><a href="#cb12-6"></a><span class="fu">head</span>(recent_activity, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1"></a><span class="co"># Question 2: Recent Patent Activity-correct</span></span>
+<span id="cb10-2"><a href="#cb10-2"></a><span class="co"># Filter patents granted in August 2014, then count patents by company</span></span>
+<span id="cb10-3"><a href="#cb10-3"></a>recent_activity <span class="ot">&lt;-</span> assignee[patent_assignee[patent, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"id"</span>)][date <span class="sc">&gt;=</span> <span class="st">"2014-08-01"</span> <span class="sc">&amp;</span> date <span class="sc">&lt;=</span> <span class="st">"2014-08-31"</span>], on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][type <span class="sc">%in%</span> <span class="fu">c</span>(<span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">8</span>, <span class="dv">9</span>), .N, by <span class="ot">=</span> organization][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
+<span id="cb10-4"><a href="#cb10-4"></a></span>
+<span id="cb10-5"><a href="#cb10-5"></a><span class="co"># Display top 10 US companies with the most new granted patents for August 2014</span></span>
+<span id="cb10-6"><a href="#cb10-6"></a><span class="fu">head</span>(recent_activity, <span class="dv">10</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
@@ -259,13 +258,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </script>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Question 3: Innovation in Tech-correct</span></span>
-<span id="cb13-2"><a href="#cb13-2"></a><span class="co"># Join assignee, patent_assignee, and uspc tables, then count patents by tech sector</span></span>
-<span id="cb13-3"><a href="#cb13-3"></a>innovation <span class="ot">&lt;-</span> assignee[patent_assignee, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][uspc, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"patent_id"</span>)][, .N, by <span class="ot">=</span> .(organization, mainclass_id)][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
-<span id="cb13-4"><a href="#cb13-4"></a></span>
-<span id="cb13-5"><a href="#cb13-5"></a><span class="co"># Display the top 10 most innovative tech sectors</span></span>
-<span id="cb13-6"><a href="#cb13-6"></a>top_sectors <span class="ot">&lt;-</span> <span class="fu">head</span>(innovation, <span class="dv">10</span>)</span>
-<span id="cb13-7"><a href="#cb13-7"></a><span class="fu">print</span>(top_sectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># Question 3: Innovation in Tech-correct</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a><span class="co"># Join assignee, patent_assignee, and uspc tables, then count patents by tech sector</span></span>
+<span id="cb11-3"><a href="#cb11-3"></a>innovation <span class="ot">&lt;-</span> assignee[patent_assignee, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"id"</span> <span class="ot">=</span> <span class="st">"assignee_id"</span>)][uspc, on <span class="ot">=</span> <span class="fu">c</span>(<span class="st">"patent_id"</span> <span class="ot">=</span> <span class="st">"patent_id"</span>)][, .N, by <span class="ot">=</span> .(organization, mainclass_id)][<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
+<span id="cb11-4"><a href="#cb11-4"></a></span>
+<span id="cb11-5"><a href="#cb11-5"></a><span class="co"># Display the top 10 most innovative tech sectors</span></span>
+<span id="cb11-6"><a href="#cb11-6"></a>top_sectors <span class="ot">&lt;-</span> <span class="fu">head</span>(innovation, <span class="dv">10</span>)</span>
+<span id="cb11-7"><a href="#cb11-7"></a><span class="fu">print</span>(top_sectors)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;                                         organization mainclass_id     N
 #&gt;                                               &lt;char&gt;       &lt;char&gt; &lt;int&gt;
@@ -280,15 +279,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #&gt;  9:                         Kabushiki Kaisha Toshiba          257  1647
 #&gt; 10:        SEMICONDUCTOR ENERGY LABORATORY CO., LTD.          257  1619</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="co"># Count the number of patents per main class</span></span>
-<span id="cb15-2"><a href="#cb15-2"></a>main_class_counts <span class="ot">&lt;-</span> innovation[, .N, by <span class="ot">=</span> mainclass_id]</span>
-<span id="cb15-3"><a href="#cb15-3"></a></span>
-<span id="cb15-4"><a href="#cb15-4"></a><span class="co"># Sort the main classes by patent count</span></span>
-<span id="cb15-5"><a href="#cb15-5"></a>sorted_main_classes <span class="ot">&lt;-</span> main_class_counts[<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
-<span id="cb15-6"><a href="#cb15-6"></a></span>
-<span id="cb15-7"><a href="#cb15-7"></a><span class="co"># Display the top 5 USPTO tech main classes</span></span>
-<span id="cb15-8"><a href="#cb15-8"></a>top_main_classes <span class="ot">&lt;-</span> <span class="fu">head</span>(sorted_main_classes, <span class="dv">5</span>)</span>
-<span id="cb15-9"><a href="#cb15-9"></a><span class="fu">print</span>(top_main_classes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a><span class="co"># Count the number of patents per main class</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a>main_class_counts <span class="ot">&lt;-</span> innovation[, .N, by <span class="ot">=</span> mainclass_id]</span>
+<span id="cb13-3"><a href="#cb13-3"></a></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="co"># Sort the main classes by patent count</span></span>
+<span id="cb13-5"><a href="#cb13-5"></a>sorted_main_classes <span class="ot">&lt;-</span> main_class_counts[<span class="fu">order</span>(<span class="sc">-</span>N)]</span>
+<span id="cb13-6"><a href="#cb13-6"></a></span>
+<span id="cb13-7"><a href="#cb13-7"></a><span class="co"># Display the top 5 USPTO tech main classes</span></span>
+<span id="cb13-8"><a href="#cb13-8"></a>top_main_classes <span class="ot">&lt;-</span> <span class="fu">head</span>(sorted_main_classes, <span class="dv">5</span>)</span>
+<span id="cb13-9"><a href="#cb13-9"></a><span class="fu">print</span>(top_main_classes)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;    mainclass_id     N
 #&gt;          &lt;char&gt; &lt;int&gt;

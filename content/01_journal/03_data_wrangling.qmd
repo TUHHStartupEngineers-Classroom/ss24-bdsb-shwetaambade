@@ -2,7 +2,7 @@
 title: "Data Wrangling"
 author: "Shweta Ambade"
 ---
-
+```{r}
 # Load required packages
 library(data.table)
 
@@ -61,4 +61,4 @@ top_main_classes <- head(sorted_main_classes, 5)
 print(top_main_classes)
 
 
-
+```

@@ -5,7 +5,7 @@ editor:
   markdown: 
     wrap: 72
 ---
-
+```{r}
 # Load necessary libraries
 library(dplyr)
 library(ggplot2)
@@ -50,11 +50,10 @@ sales_by_state_tbl %>%
   theme(axis.text.x = element_text(angle = 45, hjust = 1)) # Rotate x-axis labels
 
 
+```
 
-
-
-
-
+```{r}
+#Challenge
 library(tidyverse)
 library(readxl)
 library(lubridate)
@@ -198,4 +197,4 @@ labs(
         legend.position  = "right",
         axis.text.x = element_text(angle = 45))
 
-
+```

@@ -101,6 +101,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet">
 <script src="../../site_libs/pagedtable-1.1/js/pagedtable.js"></script>
 
+  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
 </head>
 
@@ -169,7 +171,17 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">Contents</h2>
+   
+  <ul class="collapse">
+  <li><a href="#data-scraping-from-the-web-page-for-the-bike-models" id="toc-data-scraping-from-the-web-page-for-the-bike-models" class="nav-link active" data-scroll-target="#data-scraping-from-the-web-page-for-the-bike-models"><span class="header-section-number">1</span> data scraping from the web page for the bike models</a></li>
+  <li><a href="#scrape-the-bike-model-names" id="toc-scrape-the-bike-model-names" class="nav-link" data-scroll-target="#scrape-the-bike-model-names"><span class="header-section-number">2</span> Scrape the bike model names</a></li>
+  <li><a href="#data-scraping-from-the-web-page-for-the-bike-prices" id="toc-data-scraping-from-the-web-page-for-the-bike-prices" class="nav-link" data-scroll-target="#data-scraping-from-the-web-page-for-the-bike-prices"><span class="header-section-number">3</span> data scraping from the web page for the bike prices</a></li>
+  <li><a href="#merging-the-two-tables-into-one" id="toc-merging-the-two-tables-into-one" class="nav-link" data-scroll-target="#merging-the-two-tables-into-one"><span class="header-section-number">4</span> merging the two tables into one</a></li>
+  <li><a href="#remove-trailing-zeros-and-convert-to-numeric" id="toc-remove-trailing-zeros-and-convert-to-numeric" class="nav-link" data-scroll-target="#remove-trailing-zeros-and-convert-to-numeric"><span class="header-section-number">5</span> Remove trailing zeros and convert to numeric</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content" id="quarto-document-content">
@@ -277,71 +289,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #&gt; 10    Leipzig            19.63           66    broken clouds</code></pre>
 </div>
 </div>
-<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_3bf6da481efaf7bd848caccec1434521">
+<div class="cell" data-hash="02_data_acquisition_cache/html/unnamed-chunk-2_d1306f2f8072600d4eb9fecb03094156">
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a><span class="co">#Web Scraping</span></span>
 <span id="cb7-2"><a href="#cb7-2"></a><span class="co">#Load necessary libraries</span></span>
-<span id="cb7-3"><a href="#cb7-3"></a></span>
-<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">library</span>(tidyverse) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'tidyverse' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'ggplot2' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'tidyr' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'readr' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'dplyr' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'lubridate' was built under R version 4.3.3</code></pre>
-</div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; ── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-#&gt; ✔ dplyr     1.1.4     ✔ readr     2.1.5
-#&gt; ✔ forcats   1.0.0     ✔ stringr   1.5.0
-#&gt; ✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-#&gt; ✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-#&gt; ✔ purrr     1.0.2     
-#&gt; ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-#&gt; ✖ dplyr::filter()  masks stats::filter()
-#&gt; ✖ purrr::flatten() masks jsonlite::flatten()
-#&gt; ✖ dplyr::lag()     masks stats::lag()
-#&gt; ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a><span class="fu">library</span>(rvest)     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; 
-#&gt; Attaching package: 'rvest'
-#&gt; 
-#&gt; The following object is masked from 'package:readr':
-#&gt; 
-#&gt;     guess_encoding</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1"></a><span class="fu">library</span>(xopen)     </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>#&gt; Warning: package 'xopen' was built under R version 4.3.3</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1"></a><span class="fu">library</span>(jsonlite)  </span>
-<span id="cb19-2"><a href="#cb19-2"></a><span class="fu">library</span>(glue)      </span>
-<span id="cb19-3"><a href="#cb19-3"></a><span class="fu">library</span>(stringi)   </span>
-<span id="cb19-4"><a href="#cb19-4"></a></span>
-<span id="cb19-5"><a href="#cb19-5"></a>url_home <span class="ot">&lt;-</span> <span class="st">"https://www.rosebikes.de/fahrr%C3%A4der/mtb"</span></span>
-<span id="cb19-6"><a href="#cb19-6"></a><span class="co"># Open links directly from RStudio to inspect them</span></span>
-<span id="cb19-7"><a href="#cb19-7"></a></span>
-<span id="cb19-8"><a href="#cb19-8"></a>html_home <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_home) <span class="co"># Read in the HTML for the entire web page</span></span>
-<span id="cb19-9"><a href="#cb19-9"></a></span>
-<span id="cb19-10"><a href="#cb19-10"></a><span class="co"># data scraping from the web page for  the bike models </span></span>
-<span id="cb19-11"><a href="#cb19-11"></a><span class="co"># Scrape the bike model names</span></span>
-<span id="cb19-12"><a href="#cb19-12"></a>bike_model <span class="ot">&lt;-</span> html_home <span class="sc">%&gt;%</span></span>
-<span id="cb19-13"><a href="#cb19-13"></a>  <span class="fu">html_nodes</span>(<span class="at">css =</span> <span class="st">".basic-headline.basic-headline--no-margin.basic-headline--small.basic-headline--left"</span>)<span class="sc">%&gt;%</span></span>
-<span id="cb19-14"><a href="#cb19-14"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb19-15"><a href="#cb19-15"></a>  <span class="fu">str_remove_all</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
-<span id="cb19-16"><a href="#cb19-16"></a>bike_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb7-3"><a href="#cb7-3"></a><span class="fu">library</span>(tidyverse) </span>
+<span id="cb7-4"><a href="#cb7-4"></a><span class="fu">library</span>(rvest)     </span>
+<span id="cb7-5"><a href="#cb7-5"></a><span class="fu">library</span>(xopen)     </span>
+<span id="cb7-6"><a href="#cb7-6"></a><span class="fu">library</span>(jsonlite)  </span>
+<span id="cb7-7"><a href="#cb7-7"></a><span class="fu">library</span>(glue)      </span>
+<span id="cb7-8"><a href="#cb7-8"></a><span class="fu">library</span>(stringi)   </span>
+<span id="cb7-9"><a href="#cb7-9"></a></span>
+<span id="cb7-10"><a href="#cb7-10"></a>url_home <span class="ot">&lt;-</span> <span class="st">"https://www.rosebikes.de/fahrr%C3%A4der/mtb"</span></span>
+<span id="cb7-11"><a href="#cb7-11"></a><span class="co"># Open links directly from RStudio to inspect them</span></span>
+<span id="cb7-12"><a href="#cb7-12"></a></span>
+<span id="cb7-13"><a href="#cb7-13"></a>html_home <span class="ot">&lt;-</span> <span class="fu">read_html</span>(url_home) <span class="co"># Read in the HTML for the entire web page</span></span>
+<span id="cb7-14"><a href="#cb7-14"></a></span>
+<span id="cb7-15"><a href="#cb7-15"></a><span class="co"># data scraping from the web page for  the bike models </span></span>
+<span id="cb7-16"><a href="#cb7-16"></a><span class="co"># Scrape the bike model names</span></span>
+<span id="cb7-17"><a href="#cb7-17"></a>bike_model <span class="ot">&lt;-</span> html_home <span class="sc">%&gt;%</span></span>
+<span id="cb7-18"><a href="#cb7-18"></a>  <span class="fu">html_nodes</span>(<span class="at">css =</span> <span class="st">".basic-headline.basic-headline--no-margin.basic-headline--small.basic-headline--left"</span>)<span class="sc">%&gt;%</span></span>
+<span id="cb7-19"><a href="#cb7-19"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb7-20"><a href="#cb7-20"></a>  <span class="fu">str_remove_all</span>(<span class="st">"</span><span class="sc">\n</span><span class="st">"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21"></a>bike_model</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>#&gt;  [1] "PDQ            "              "COUNT SOLO            "      
 #&gt;  [3] "THRILL HILL            "      "GROUND CONTROL            "  
@@ -349,50 +318,71 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 #&gt;  [7] "SCRUB            "            "THE BRUCE            "       
 #&gt;  [9] "ROOT MILLER PLUS            " "BONERO PLUS            "</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1"></a><span class="co"># data scraping from the web page for  the bike prices</span></span>
-<span id="cb21-2"><a href="#cb21-2"></a>bike_price <span class="ot">&lt;-</span> html_home <span class="sc">%&gt;%</span></span>
-<span id="cb21-3"><a href="#cb21-3"></a>  <span class="fu">html_nodes</span>(<span class="at">css =</span> <span class="st">".catalog-category-bikes__price-title"</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-4"><a href="#cb21-4"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
-<span id="cb21-5"><a href="#cb21-5"></a>  </span>
-<span id="cb21-6"><a href="#cb21-6"></a>  <span class="fu">str_remove_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">."</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-7"><a href="#cb21-7"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">ab "</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
-<span id="cb21-8"><a href="#cb21-8"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">replacement =</span> <span class="st">""</span>) </span>
-<span id="cb21-9"><a href="#cb21-9"></a>  </span>
-<span id="cb21-10"><a href="#cb21-10"></a>bike_price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="co"># data scraping from the web page for  the bike prices</span></span>
+<span id="cb9-2"><a href="#cb9-2"></a>bike_price <span class="ot">&lt;-</span> html_home <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a>  <span class="fu">html_nodes</span>(<span class="at">css =</span> <span class="st">".catalog-category-bikes__price-title"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-4"><a href="#cb9-4"></a>  <span class="fu">html_text</span>() <span class="sc">%&gt;%</span></span>
+<span id="cb9-5"><a href="#cb9-5"></a>  </span>
+<span id="cb9-6"><a href="#cb9-6"></a>  <span class="fu">str_remove_all</span>(<span class="st">"</span><span class="sc">\\</span><span class="st">."</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-7"><a href="#cb9-7"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">ab "</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-8"><a href="#cb9-8"></a>  stringr<span class="sc">::</span><span class="fu">str_replace_all</span>(<span class="at">pattern =</span> <span class="st">"</span><span class="sc">\n</span><span class="st">"</span>, <span class="at">replacement =</span> <span class="st">""</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a>  <span class="fu">str_remove_all</span>(<span class="st">"€|ab|,|</span><span class="sc">\\</span><span class="st">s"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10"></a>bike_price</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>#&gt;  [1] "                                                ab 2699,00&nbsp;€                                            "
-#&gt;  [2] "                                                ab 499,00&nbsp;€                                            " 
-#&gt;  [3] "                                                ab 2299,00&nbsp;€                                            "
-#&gt;  [4] "                                                ab 1499,00&nbsp;€                                            "
-#&gt;  [5] "                                                ab 1799,00&nbsp;€                                            "
-#&gt;  [6] "                                                ab 999,00&nbsp;€                                            " 
-#&gt;  [7] "                                                ab 3299,00&nbsp;€                                            "
-#&gt;  [8] "                                                ab 799,00&nbsp;€                                            " 
-#&gt;  [9] "                                                ab 3999,00&nbsp;€                                            "
-#&gt; [10] "                                                ab 4499,00&nbsp;€                                            "</code></pre>
+<pre><code>#&gt;  [1] "269900" "49900"  "229900" "149900" "179900" "99900"  "329900" "79900" 
+#&gt;  [9] "399900" "449900"</code></pre>
 </div>
-<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1"></a><span class="co"># merging the two tables into one</span></span>
-<span id="cb23-2"><a href="#cb23-2"></a>da2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(bike_model, bike_price)</span>
-<span id="cb23-3"><a href="#cb23-3"></a></span>
-<span id="cb23-4"><a href="#cb23-4"></a>da2 <span class="ot">&lt;-</span> da2 <span class="sc">%&gt;%</span><span class="fu">mutate</span>(<span class="at">bike_price =</span> <span class="fu">as.character</span>(<span class="fu">gsub</span>(<span class="st">"€"</span>, <span class="st">""</span>, bike_price)))</span>
-<span id="cb23-5"><a href="#cb23-5"></a>da2<span class="sc">$</span>bike_price <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">gsub</span>(<span class="st">","</span>,<span class="st">""</span>,da2<span class="sc">$</span>bike_price))</span>
-<span id="cb23-6"><a href="#cb23-6"></a>da2<span class="sc">$</span>bike_price <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">gsub</span>(<span class="st">"ab"</span>,<span class="st">""</span>,da2<span class="sc">$</span>bike_price))</span>
-<span id="cb23-7"><a href="#cb23-7"></a></span>
-<span id="cb23-8"><a href="#cb23-8"></a><span class="co">#d&lt;-da2</span></span>
-<span id="cb23-9"><a href="#cb23-9"></a>da2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1"></a><span class="co"># merging the two tables into one</span></span>
+<span id="cb11-2"><a href="#cb11-2"></a>da2 <span class="ot">&lt;-</span> <span class="fu">tibble</span>(bike_model, bike_price)</span>
+<span id="cb11-3"><a href="#cb11-3"></a></span>
+<span id="cb11-4"><a href="#cb11-4"></a><span class="co"># Remove trailing zeros and convert to numeric</span></span>
+<span id="cb11-5"><a href="#cb11-5"></a>da2<span class="sc">$</span>bike_price <span class="ot">&lt;-</span> <span class="fu">as.character</span>(<span class="fu">gsub</span>(<span class="st">"^0+"</span>, <span class="st">""</span>, da2<span class="sc">$</span>bike_price))</span>
+<span id="cb11-6"><a href="#cb11-6"></a>da2<span class="sc">$</span>bike_price <span class="ot">&lt;-</span> <span class="fu">gsub</span>(<span class="st">"00$"</span>, <span class="st">""</span>, da2<span class="sc">$</span>bike_price)</span>
+<span id="cb11-7"><a href="#cb11-7"></a></span>
+<span id="cb11-8"><a href="#cb11-8"></a><span class="co">#d&lt;-da2</span></span>
+<span id="cb11-9"><a href="#cb11-9"></a>da2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
 
 <div data-pagedtable="false">
   <script data-pagedtable-source="" type="application/json">
-{"columns":[{"label":["bike_model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["bike_price"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"PDQ","2":"269900 "},{"1":"COUNT SOLO","2":"49900 "},{"1":"THRILL HILL","2":"229900 "},{"1":"GROUND CONTROL","2":"149900 "},{"1":"ROOT MILLER","2":"179900 "},{"1":"BONERO","2":"99900 "},{"1":"SCRUB","2":"329900 "},{"1":"THE BRUCE","2":"79900 "},{"1":"ROOT MILLER PLUS","2":"399900 "},{"1":"BONERO PLUS","2":"449900 "}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+{"columns":[{"label":["bike_model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["bike_price"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"PDQ","2":"2699"},{"1":"COUNT SOLO","2":"499"},{"1":"THRILL HILL","2":"2299"},{"1":"GROUND CONTROL","2":"1499"},{"1":"ROOT MILLER","2":"1799"},{"1":"BONERO","2":"999"},{"1":"SCRUB","2":"3299"},{"1":"THE BRUCE","2":"799"},{"1":"ROOT MILLER PLUS","2":"3999"},{"1":"BONERO PLUS","2":"4499"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
   </script>
 </div>
 </div>
-<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1"></a><span class="fu">write_rds</span>(da2, <span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R"</span>)</span>
-<span id="cb24-2"><a href="#cb24-2"></a><span class="fu">write.csv</span>(<span class="at">x=</span>da2, <span class="at">file=</span><span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a><span class="fu">write_rds</span>(da2, <span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R"</span>)</span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="fu">write.csv</span>(<span class="at">x=</span>da2, <span class="at">file=</span><span class="st">"C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>library(tidyverse) library(rvest)<br>
+library(xopen)<br>
+library(jsonlite)<br>
+library(glue)<br>
+library(stringi)</p>
+<p>url_home &lt;- “https://www.rosebikes.de/fahrr%C3%A4der/mtb” # Open links directly from RStudio to inspect them</p>
+<p>html_home &lt;- read_html(url_home) # Read in the HTML for the entire web page</p>
+<section id="data-scraping-from-the-web-page-for-the-bike-models" class="level1" data-number="1">
+<h1 data-number="1"><span class="header-section-number">1</span> data scraping from the web page for the bike models</h1>
+</section>
+<section id="scrape-the-bike-model-names" class="level1" data-number="2">
+<h1 data-number="2"><span class="header-section-number">2</span> Scrape the bike model names</h1>
+<p>bike_model &lt;- html_home %&gt;% html_nodes(css = “.basic-headline.basic-headline–no-margin.basic-headline–small.basic-headline–left”)%&gt;% html_text() %&gt;% str_remove_all(“”) bike_model</p>
+</section>
+<section id="data-scraping-from-the-web-page-for-the-bike-prices" class="level1" data-number="3">
+<h1 data-number="3"><span class="header-section-number">3</span> data scraping from the web page for the bike prices</h1>
+<p>bike_price &lt;- html_home %&gt;% html_nodes(css = “.catalog-category-bikes__price-title”) %&gt;% html_text() %&gt;%</p>
+<p>str_remove_all(“\.”) %&gt;% stringr::str_replace_all(pattern = “”, replacement = ““) %&gt;% stringr::str_replace_all(pattern =”“, replacement =”“) %&gt;% str_remove_all(”€|ab|,|\s”) bike_price</p>
+</section>
+<section id="merging-the-two-tables-into-one" class="level1" data-number="4">
+<h1 data-number="4"><span class="header-section-number">4</span> merging the two tables into one</h1>
+<p>da2 &lt;- tibble(bike_model, bike_price)</p>
+</section>
+<section id="remove-trailing-zeros-and-convert-to-numeric" class="level1" data-number="5">
+<h1 data-number="5"><span class="header-section-number">5</span> Remove trailing zeros and convert to numeric</h1>
+<p>da2<span class="math inline">\(bike_price &lt;- as.character(gsub("^0+", "", da2\)</span>bike_price)) da2<span class="math inline">\(bike_price &lt;- gsub("00\)</span>“,”“, da2$bike_price)</p>
+<p>#d&lt;-da2 bike_model bike_price da2</p>
+<p>write_rds(da2, “C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.R”) write.csv(x=da2, file=“C:/Users/Shweta/Documents/GitHub/ss24-bdsb-shwetaambade/datascience/DataAcquistion2.csv”)</p>
 
 
+</section>
 
 </main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
